@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "824489559881",
+    "firebase_url": "https://homeaidkit-69945.firebaseio.com",
+    "project_id": "homeaidkit-69945",
+    "storage_bucket": "homeaidkit-69945.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824489559881:android:2bf90f6886cf32855f7c98",
+        "android_client_info": {
+          "package_name": "com.example.homeaidkit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824489559881-hfsq3bk48dj7ke1lkq85egc7gvpu66ak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBF-M10NpHY_IMc7kG0sbxG0_nURCjP7Pw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824489559881-hfsq3bk48dj7ke1lkq85egc7gvpu66ak.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
