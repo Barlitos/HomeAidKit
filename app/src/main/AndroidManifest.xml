@@ -9,7 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".drugModify"></activity>
+        <activity android:name=".passwordEdit"></activity>
+        <activity android:name=".emailEdit" />
+        <activity android:name=".account" />
+        <activity android:name=".editDrug" />
+        <activity android:name=".addDrug" />
+        <activity android:name=".modifyDeletecategory" />
+        <activity android:name=".addCategory" />
+        <activity android:name=".categories" />
+        <activity android:name=".drugModify" />
         <activity android:name=".register" />
         <activity android:name=".LoginActivity" />
         <activity
