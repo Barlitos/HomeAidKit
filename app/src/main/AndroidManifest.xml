@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".passwordEdit"></activity>
+        <activity android:name=".mostUsed"></activity>
+        <activity android:name=".passwordEdit" />
         <activity android:name=".emailEdit" />
         <activity android:name=".account" />
         <activity android:name=".editDrug" />
@@ -19,9 +20,8 @@
         <activity android:name=".categories" />
         <activity android:name=".drugModify" />
         <activity android:name=".register" />
-        <activity android:name=".LoginActivity" />
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name="LoginActivity"
             android:label="@string/title_activity_login" />
         <activity android:name=".MainActivity">
             <intent-filter>

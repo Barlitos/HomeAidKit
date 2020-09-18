@@ -4,6 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000">
+
+    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_marginVertical="32dp"
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/menu"
+        app:layout_constraintTop_toTopOf="parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#000"
     tools:context=".addCategory">
 
@@ -15,10 +30,9 @@
         android:textColor="#000"
         android:background="#00ccff"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_alignParentLeft="true"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/logOutButton"
@@ -28,7 +42,7 @@
         android:textColor="#000"
         android:background="#00ccff"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_alignParentRight="true" />
@@ -39,7 +53,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="32dp"
         android:text="Dodawanie kategorii"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,7 +67,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="Nazwa Kategorii"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +79,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="#8c8c8c"
-        android:textColorHint="8c8c8c"
+        android:textColorHint="#8c8c8c"
         android:textSize="20sp"
         android:hint="np. Ból gardła"
         android:inputType="text"
@@ -84,41 +98,38 @@
         app:layout_constraintTop_toBottomOf="@id/categoryInput"/>
 
     <Button
-        android:id="@+id/addCategoryButtonButton"
+        android:id="@+id/addCategoryButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Dodaj"
+        android:text="Dodaj kategorię"
         android:textColor="#000"
         android:background="#00ccff"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/categoryInput" />
 
+</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
     <androidx.appcompat.widget.LinearLayoutCompat
+
+        android:id="@+id/menu"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="32dp"
         android:background="#8c8c8c"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/alphabeticalSortButton"
+            android:id="@+id/hometButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#8c8c8c"
-            app:srcCompat="@drawable/ic_baseline_sort_by_alpha_24" />
-
-        <ImageButton
-            android:id="@+id/dateSortButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#8c8c8c"
-            app:srcCompat="@drawable/ic_baseline_date_range_24" />
+            app:srcCompat="@drawable/ic_baseline_home_24" />
 
         <ImageButton
             android:id="@+id/mostUsedButton"

@@ -8,12 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-public class categories extends AppCompatActivity {
+public class mostUsed extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_categories);
+        setContentView(R.layout.activity_most_used);
 
         Button account = findViewById(R.id.accountButton);
         account.setOnClickListener(new View.OnClickListener() {
@@ -31,11 +31,11 @@ public class categories extends AppCompatActivity {
             }
         });
 
-        ImageButton mostUsed = findViewById(R.id.mostUsedButton);
-        mostUsed.setOnClickListener(new View.OnClickListener() {
+        ImageButton categories = findViewById(R.id.categoriesButton);
+        categories.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openMostUsedActivity();
+                openCategoriesActivity();
             }
         });
 
@@ -54,14 +54,6 @@ public class categories extends AppCompatActivity {
                 openHomeActivity();
             }
         });
-
-        Button addCategory = findViewById(R.id.addingCategoryButton);
-        addCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openAddCategoryActivity();
-            }
-        });
     }
 
     public void openAccountActivity()
@@ -76,9 +68,9 @@ public class categories extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openMostUsedActivity()
+    public void openCategoriesActivity()
     {
-        Intent intent = new Intent(this, mostUsed.class);
+        Intent intent = new Intent(this, categories.class);
         startActivity(intent);
     }
 
@@ -91,12 +83,6 @@ public class categories extends AppCompatActivity {
     public void openHomeActivity()
     {
         Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    public void openAddCategoryActivity()
-    {
-        Intent intent = new Intent(this, addCategory.class);
         startActivity(intent);
     }
 }

@@ -4,6 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000">
+
+    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_marginVertical="32dp"
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/menu"
+        app:layout_constraintTop_toTopOf="parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#000"
     tools:context=".categories">
 
@@ -15,7 +29,7 @@
         android:textColor="#000"
         android:background="#00ccff"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_alignParentLeft="true"/>
@@ -28,7 +42,7 @@
         android:textColor="#000"
         android:background="#00ccff"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_alignParentRight="true" />
@@ -40,7 +54,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="32dp">
 
         <Button
             android:id="@+id/addingCategoryButton"
@@ -57,20 +71,32 @@
         android:id="@+id/categoryList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         android:layout_marginHorizontal="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/addCategoryLayout"
         />
 
+</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/menu"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="30dp"
-        android:background="#8c8c8c"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    android:layout_marginBottom="32dp"
+    android:background="#8c8c8c"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/hometButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#8c8c8c"
+            app:srcCompat="@drawable/ic_baseline_home_24" />
 
         <ImageButton
             android:id="@+id/alphabeticalSortButton"
@@ -80,34 +106,18 @@
             android:background="#8c8c8c"
             app:srcCompat="@drawable/ic_baseline_sort_by_alpha_24" />
 
-        <ImageButton
-            android:id="@+id/dateSortButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#8c8c8c"
-            app:srcCompat="@drawable/ic_baseline_date_range_24" />
+    <ImageButton
+        android:id="@+id/mostUsedButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#8c8c8c"
+        app:srcCompat="@drawable/ic_baseline_stars_24" />
 
-        <ImageButton
-            android:id="@+id/mostUsedButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#8c8c8c"
-            app:srcCompat="@drawable/ic_baseline_stars_24" />
-
-        <ImageButton
-            android:id="@+id/categoriesButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#8c8c8c"
-            app:srcCompat="@drawable/ic_baseline_playlist_add_24" />
-
-        <ImageButton
-            android:id="@+id/addDrugButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+    <ImageButton
+        android:id="@+id/addDrugButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#8c8c8c"
             app:srcCompat="@drawable/ic_baseline_add_circle_24" />
