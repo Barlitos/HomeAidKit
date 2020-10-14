@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 PostRequest loginRequest=new PostRequest();
                 loginRequest.execute("login",login.getText().toString(),"password",password.getText().toString());
-                //openMainActivity();
+                //
             }
         });
 
@@ -85,12 +85,18 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 JSONObject object=new JSONObject(s);
               //  alertDialog.setMessage(object.getString("message"));
-                if(object.has("password") && object.getInt("password")==0)
+
+                if(object.getInt("login")==1)
                 {
-                    password.setError(object.getString("message"));
+                    if(object.has("password") && object.getInt("password")==0)
+                    {
+                        password.setError(object.getString("message"));
+                    }
+                    else {
+                        openMainActivity();
+                    }
                 }
-                if(object.getInt("login")==0)
-                {
+                else {
                     login.setError(object.getString("message"));
                 }
             } catch (JSONException e) {
