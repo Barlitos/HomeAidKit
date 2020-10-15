@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +26,7 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String postUrl="http://192.168.8.118/HomeAidKit/login.php";
+    private static final String postUrl="http://192.168.0.2/HomeAidKit/login.php";
     protected EditText login;
     protected EditText password;
 
@@ -34,6 +35,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        Bundle b = getIntent().getExtras();
+        if(b!=null)
+        {
+            Toast.makeText(LoginActivity.this, b.getString("message"), Toast.LENGTH_SHORT).show();
+        }
         login=findViewById(R.id.emailInput);
         password=findViewById(R.id.passwordInput);
 

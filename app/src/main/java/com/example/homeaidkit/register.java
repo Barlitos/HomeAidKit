@@ -54,7 +54,7 @@ public class register extends AppCompatActivity {
  protected EditText email;
  protected EditText password;
 
- private static final String postUrl="http://192.168.8.118/HomeAidKit/createAccount.php";
+ private static final String postUrl="http://192.168.0.2/HomeAidKit/createAccount.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,14 +79,15 @@ public class register extends AppCompatActivity {
         loggingIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openLogingInActivity();
+                openLogingInActivity("");
             }
         });
     }
 
-    public void openLogingInActivity()
+    public void openLogingInActivity(String message)
     {
         Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("message", message);
         startActivity(intent);
     }
 
@@ -114,6 +115,12 @@ public class register extends AppCompatActivity {
                 {
                     login.setError(object.getString("message"));
                 }
+
+                if(object.getInt("success")==1)
+                {
+                    openLogingInActivity(object.getString("message"));
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -126,7 +133,6 @@ public class register extends AppCompatActivity {
                     });
             alertDialog.show();
             //------//
-
         }
 
         @Override
@@ -156,8 +162,5 @@ public class register extends AppCompatActivity {
             }
             return "Unknown Error";
         }
-
     }
-
-
 }
