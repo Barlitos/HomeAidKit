@@ -8,12 +8,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.view.textclassifier.TextLanguage;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -53,8 +56,11 @@ public class register extends AppCompatActivity {
  protected EditText login;
  protected EditText email;
  protected EditText password;
+ protected EditText repeatPassword;
+ //validation flags
+ private boolean isEmailOk=false,isLoginOk=false,isPasswordOk=false;
 
- private static final String postUrl="http://192.168.0.2/HomeAidKit/createAccount.php";
+ private static final String postUrl="http://192.168.8.118/HomeAidKit/createAccount.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +69,72 @@ public class register extends AppCompatActivity {
         login=findViewById(R.id.loginInput);
         email=findViewById(R.id.emailInput);
         password=findViewById(R.id.password1Input);
+        repeatPassword=findViewById(R.id.password2Input);
 
-        //Button with onclick listener
+        login.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(login.getText().toString().isEmpty())
+                {
+                    setLoginOk(false);
+                }
+                else setLoginOk(true);
+            }
+        });
+        login.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                {
+                    if(!isLoginOk)
+                    login.setError(getString(R.string.empty_login_error));
+                }
+            }
+        });
+
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                    if(android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText()).matches()){
+                    setEmailOk(true);
+                    }
+                    else {
+                        setEmailOk(false);
+                    }
+            }
+        });
+        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) {
+                    if (email.getText().toString().isEmpty() || !isEmailOk()) {
+                        email.setError(getString(R.string.incorrect_email_error));
+                    }
+                }
+            }
+        });
+
+        //Buttons with onclick listeners
         Button register = findViewById(R.id.registerButton);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PostRequest registerRequest=new PostRequest();
-               registerRequest.execute("login",login.getText().toString(),"email",email.getText().toString(),"password",password.getText().toString());
-                //openLogingActivity();
+                if(formReadyToRequest()) {
+                    PostRequest registerRequest = new PostRequest();
+                    registerRequest.execute("login", login.getText().toString(), "email", email.getText().toString(), "password", password.getText().toString());
+                }
             }
         });
 
@@ -162,5 +225,36 @@ public class register extends AppCompatActivity {
             }
             return "Unknown Error";
         }
+    }
+    // ----END OF ASYNCTASK CLASS
+
+    private boolean formReadyToRequest()
+    {
+        return isLoginOk() && isEmailOk() && isPasswordOk();
+    }
+
+    // validation flags getters/ setters
+    public boolean isEmailOk() {
+        return isEmailOk;
+    }
+
+    public void setEmailOk(boolean emailOk) {
+        isEmailOk = emailOk;
+    }
+
+    public boolean isLoginOk() {
+        return isLoginOk;
+    }
+
+    public void setLoginOk(boolean loginOk) {
+        isLoginOk = loginOk;
+    }
+
+    public boolean isPasswordOk() {
+        return isPasswordOk;
+    }
+
+    public void setPasswordOk(boolean passwordOk) {
+        isPasswordOk = passwordOk;
     }
 }

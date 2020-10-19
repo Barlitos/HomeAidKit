@@ -11,4 +11,6 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="empty_login_error">Pole nie może być puste!</string>
+    <string name="incorrect_email_error">Wprowadź poprawny adres email</string>
 </resources>
