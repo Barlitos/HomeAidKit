@@ -82,6 +82,7 @@ public class register extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if(login.getText().toString().isEmpty())
                 {
+                    login.setError(getString(R.string.empty_login_error));
                     setLoginOk(false);
                 }
                 else setLoginOk(true);
@@ -92,8 +93,9 @@ public class register extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus)
                 {
-                    if(!isLoginOk)
-                    login.setError(getString(R.string.empty_login_error));
+                    if(!isLoginOk()){
+                        login.setError(getString(R.string.empty_login_error));
+                    }
                 }
             }
         });
@@ -126,6 +128,31 @@ public class register extends AppCompatActivity {
             }
         });
 
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(password.getText().toString().isEmpty())
+                {
+                    password.setError(getString(R.string.empty_login_error));
+                }
+            }
+        });
+        repeatPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!(repeatPassword.getText().toString().equals(password.getText().toString())))
+                {
+                    repeatPassword.setError("Wprowadzone hasła różnią się!");
+                }
+            }
+        });
+
         //Buttons with onclick listeners
         Button register = findViewById(R.id.registerButton);
         register.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +161,10 @@ public class register extends AppCompatActivity {
                 if(formReadyToRequest()) {
                     PostRequest registerRequest = new PostRequest();
                     registerRequest.execute("login", login.getText().toString(), "email", email.getText().toString(), "password", password.getText().toString());
+                }
+                else
+                {
+                    Toast.makeText(register.this,"Masz niepoprawnie wypełnione pola",Toast.LENGTH_SHORT).show();
                 }
             }
         });

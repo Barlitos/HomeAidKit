@@ -1,10 +1,13 @@
 package com.example.homeaidkit;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -43,13 +48,18 @@ public class LoginActivity extends AppCompatActivity {
         login=findViewById(R.id.emailInput);
         password=findViewById(R.id.passwordInput);
 
+
         Button signIn = findViewById(R.id.signInButton);
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PostRequest loginRequest=new PostRequest();
-                loginRequest.execute("login",login.getText().toString(),"password",password.getText().toString());
-                //
+                if(login.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
+                    Toast.makeText(LoginActivity.this,"Login lub hasło nie są poprawne",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    PostRequest loginRequest = new PostRequest();
+                    loginRequest.execute("login", login.getText().toString(), "password", password.getText().toString());
+                }
             }
         });
 
@@ -83,14 +93,8 @@ public class LoginActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(String s) {
-            // alert dialog ---DEBUGGING---- should delete
-
-           // AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
-            //alertDialog.setTitle("Alert");
-            //alertDialog.setMessage(s);
             try {
                 JSONObject object=new JSONObject(s);
-              //  alertDialog.setMessage(object.getString("message"));
 
                 if(object.getInt("login")==1)
                 {
@@ -99,6 +103,10 @@ public class LoginActivity extends AppCompatActivity {
                         password.setError(object.getString("message"));
                     }
                     else {
+                        SharedPreferences data=getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor=data.edit();
+                        editor.putInt("user_id",object.getInt("user_id"));
+                        editor.apply();
                         openMainActivity();
                     }
                 }
@@ -108,15 +116,6 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            //alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-              //      new DialogInterface.OnClickListener() {
-                //        public void onClick(DialogInterface dialog, int which) {
-                  //          dialog.dismiss();
-                    //    }
-                    //});
-            //alertDialog.show();
-            //------//
 
         }
 
