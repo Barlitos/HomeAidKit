@@ -58,9 +58,9 @@ public class register extends AppCompatActivity {
  protected EditText password;
  protected EditText repeatPassword;
  //validation flags
- private boolean isEmailOk=false,isLoginOk=false,isPasswordOk=false;
+ private boolean isEmailOk=false,isLoginOk=false,isPasswordOk=true;
 
- private static final String postUrl="http://192.168.8.118/HomeAidKit/createAccount.php";
+ private static final String postUrl="http://192.168.0.3/HomeAidKit/createAccount.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,14 +162,8 @@ public class register extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(String s) {
-            // alert dialog ---DEBUGGING---- should delete
-
-            AlertDialog alertDialog = new AlertDialog.Builder(register.this).create();
-            alertDialog.setTitle("Alert");
-            //alertDialog.setMessage(s);
             try {
                 JSONObject object=new JSONObject(s);
-                alertDialog.setMessage(object.getString("message"));
                 if(object.getInt("email")==0)
                 {
                     email.setError(object.getString("message"));
@@ -183,19 +177,10 @@ public class register extends AppCompatActivity {
                 {
                     openLogingInActivity(object.getString("message"));
                 }
-
-            } catch (JSONException e) {
+            }
+            catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-            //------//
         }
 
         @Override

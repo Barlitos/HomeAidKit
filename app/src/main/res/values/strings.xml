@@ -4,7 +4,7 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_login">Login</string>
     <string name="prompt_password">Hasło</string>
-    <string name="hint_login">przykladowy</string>
+    <string name="hint_login">przykładowy</string>
     <string name="action_sign_up">Zarejestruj</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
@@ -13,4 +13,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="empty_login_error">Pole nie może być puste!</string>
     <string name="incorrect_email_error">Wprowadź poprawny adres email</string>
+    <string name="empty_name_error">Pole nie może być puste</string>
+    <string name="empty_expDate_error">Pole nie może być puste</string>
+    <string name="empty_quantity_error">Pole nie może być puste</string>
 </resources>
