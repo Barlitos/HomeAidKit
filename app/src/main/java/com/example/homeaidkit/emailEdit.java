@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.FormBody;
@@ -23,7 +26,7 @@ public class emailEdit extends AppCompatActivity {
     protected EditText newEmail;
     protected EditText repeatEmail;
     protected EditText password;
-    private static final String postUrl="192.168.8.118/HomeAidKit/changeEmail.php";
+    private static final String postUrl="http://192.168.0.3/HomeAidKit/changeEmail.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class emailEdit extends AppCompatActivity {
         newEmail=findViewById(R.id.emailEdit1Input);
         repeatEmail=findViewById(R.id.emailEdit2Input);
         password=findViewById(R.id.passwordInput);
-        SharedPreferences data=getPreferences(MODE_PRIVATE);
+        SharedPreferences data=getSharedPreferences("UserData",MODE_PRIVATE);
          final int user_id=data.getInt("user_id",-1);
 
         Button account = findViewById(R.id.accountButton);
@@ -67,13 +70,30 @@ public class emailEdit extends AppCompatActivity {
                 {
                     Toast.makeText(emailEdit.this,"Niepoprawnie wypełniono pola",Toast.LENGTH_SHORT).show();
                 }
-               // openEditEmailActivity();
+               openEditEmailActivity();
             }
         });
     }
 
     private class PostRequest extends AsyncTask<String,Void,String>
     {
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try
+            {
+                JSONObject response = new JSONObject(s);
+                if(response.has("success") && response.getInt("success")==1)
+                {
+                    Toast.makeText(emailEdit.this,response.getString("message"),Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
         @Override
         protected String doInBackground(String... strings) {
             OkHttpClient client =new OkHttpClient();

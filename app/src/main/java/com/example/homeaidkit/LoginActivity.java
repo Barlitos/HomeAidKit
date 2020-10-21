@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                         password.setError(object.getString("message"));
                     }
                     else {
-                        SharedPreferences data=getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences data=getSharedPreferences("UserData",Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor=data.edit();
                         editor.putInt("user_id",object.getInt("user_id"));
                         editor.apply();
@@ -116,7 +116,6 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
 
         @Override
