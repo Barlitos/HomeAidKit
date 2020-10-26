@@ -26,7 +26,7 @@ public class emailEdit extends AppCompatActivity {
     protected EditText newEmail;
     protected EditText repeatEmail;
     protected EditText password;
-    private static final String postUrl="http://192.168.0.3/HomeAidKit/changeEmail.php";
+    private static final String postUrl="http://192.168.0.6/HomeAidKit/changeEmail.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

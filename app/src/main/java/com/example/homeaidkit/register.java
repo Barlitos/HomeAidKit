@@ -60,7 +60,7 @@ public class register extends AppCompatActivity {
  //validation flags
  private boolean isEmailOk=false,isLoginOk=false,isPasswordOk=true;
 
- private static final String postUrl="http://192.168.0.3/HomeAidKit/createAccount.php";
+ private static final String postUrl="http://192.168.0.6/HomeAidKit/createAccount.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

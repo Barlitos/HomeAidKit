@@ -28,7 +28,7 @@ public class passwordEdit extends AppCompatActivity {
     protected EditText newPassword;
     protected EditText repeatPassword;
     protected EditText password;
-    private static final String postUrl="http://192.168.0.3/HomeAidKit/changePassword.php";
+    private static final String postUrl="http://192.168.0.6/HomeAidKit/changePassword.php";
 
     private boolean isNewPasswordOk=false,isRepeatPasswordOk=false,isPasswordOk=true;
 
@@ -240,16 +240,16 @@ public class passwordEdit extends AppCompatActivity {
         return isNewPasswordOk;
     }
 
-    public void setNewPasswordOk(boolean emailOk) {
-        isNewPasswordOk = emailOk;
+    public void setNewPasswordOk(boolean nPassOk) {
+        isNewPasswordOk = nPassOk;
     }
 
     public boolean isRepeatPasswordOk() {
         return isRepeatPasswordOk;
     }
 
-    public void setRepeatPasswordOk(boolean emailOk) {
-        isRepeatPasswordOk = emailOk;
+    public void setRepeatPasswordOk(boolean rPassOk) {
+        isRepeatPasswordOk = rPassOk;
     }
 
     public boolean isPasswordOk() {

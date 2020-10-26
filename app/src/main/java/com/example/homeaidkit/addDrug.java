@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -35,16 +36,24 @@ public class addDrug extends AppCompatActivity {
 
     private boolean isNameOk=false,isExpDateOk=false,isFormOk=false,isQuantityOk=false;
 
-    private static final String postUrl="http://192.168.0.3/HomeAidKit/addDrug.php";
+    private static final String postUrl="http://192.168.0.6/HomeAidKit/addDrug.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_drug);
 
+        drugForm = (Spinner) findViewById(R.id.drugFormSelector);
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+               R.array.form, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        drugForm.setAdapter(adapter);
+
         drugName=findViewById(R.id.drugNameInput);
         drugExpDate=findViewById(R.id.drugDateInput);
-        drugForm=findViewById(R.id.drugFormSelector);
         drugQuantity=findViewById(R.id.drugQuantityInput);
         drugCategory=findViewById(R.id.drugCategorySelector);
 
@@ -226,6 +235,7 @@ public class addDrug extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(String s) {
+
         }
 
         @Override
@@ -276,7 +286,7 @@ public class addDrug extends AppCompatActivity {
     public boolean isQuantityOk() {
         return isQuantityOk;
     }
-    public void setQuantityOk(boolean NameOk) {
-        isQuantityOk = NameOk;
+    public void setQuantityOk(boolean QuantityOk) {
+        isQuantityOk = QuantityOk;
     }
 }
