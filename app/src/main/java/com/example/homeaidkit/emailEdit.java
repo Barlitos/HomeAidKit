@@ -38,7 +38,7 @@ public class emailEdit extends AppCompatActivity {
         password=findViewById(R.id.passwordInput);
         SharedPreferences data=getSharedPreferences("UserData",MODE_PRIVATE);
          final int user_id=data.getInt("user_id",-1);
-
+        System.out.println("USER ID"+user_id);
         Button account = findViewById(R.id.accountButton);
         account.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +69,15 @@ public class emailEdit extends AppCompatActivity {
                 else
                 {
                     Toast.makeText(emailEdit.this,"Niepoprawnie wypełniono pola",Toast.LENGTH_SHORT).show();
+                    if(newEmail.getText().toString().isEmpty()){
+                        newEmail.setError(getString(R.string.empty_login_error));
+                    }
+                    if(repeatEmail.getText().toString().isEmpty()){
+                        repeatEmail.setError(getString(R.string.empty_login_error));
+                    }
+                    if(password.getText().toString().isEmpty()){
+                        password.setError(getString(R.string.empty_login_error));
+                    }
                 }
                openEditEmailActivity();
             }

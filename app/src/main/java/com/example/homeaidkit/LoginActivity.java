@@ -31,7 +31,8 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String postUrl="http://192.168.0.6/HomeAidKit/login.php";
+
+    private static final String postUrl="http://192.168.8.118/HomeAidKit/login.php";
     protected EditText login;
     protected EditText password;
 
@@ -53,10 +54,13 @@ public class LoginActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(login.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
-                    Toast.makeText(LoginActivity.this,"Login lub hasło nie są poprawne",Toast.LENGTH_LONG).show();
+                if(login.getText().toString().isEmpty()) {
+                    login.setError(getString(R.string.empty_login_error));
                 }
-                else {
+                else if ( password.getText().toString().isEmpty()){
+                    password.setError(getString(R.string.empty_login_error));
+                }
+                else{
                     PostRequest loginRequest = new PostRequest();
                     loginRequest.execute("login", login.getText().toString(), "password", password.getText().toString());
                 }

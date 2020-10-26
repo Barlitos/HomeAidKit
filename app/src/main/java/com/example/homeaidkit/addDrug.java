@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -36,34 +38,27 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
     protected EditText drugQuantity;
     protected Spinner drugCategory;
 
+    private int unitId;
     private boolean isNameOk=false,isExpDateOk=false,isFormOk=false,isQuantityOk=false;
 
-    private static final String postUrl="http://192.168.0.6/HomeAidKit/addDrug.php";
+    private static final String postUrl="http://192.168.8.118/HomeAidKit/addDrug.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_drug);
-
-        Spinner drugFormSpinner=findViewById(R.id.drugFormSelector);
+    // spinner drug form
+        drugForm=findViewById(R.id.drugFormSelector);
         ArrayAdapter adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.form,
                 R.layout.spinner_color
         );
         adapter.setDropDownViewResource(R.layout.spinner_dropdown);
-        drugFormSpinner.setAdapter(adapter);
-        drugFormSpinner.setOnItemSelectedListener(this);
+        drugForm.setAdapter(adapter);
+        drugForm.setOnItemSelectedListener(this);
 
-        //drugForm = (Spinner) findViewById(R.id.drugFormSelector);
-// Create an ArrayAdapter using the string array and a default spinner layout
-       // ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-             //  R.array.form, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-       // adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-       // drugForm.setAdapter(adapter);
-
+        final int user_id= getSharedPreferences("UserData",MODE_PRIVATE).getInt("user_id",-1);
         drugName=findViewById(R.id.drugNameInput);
         drugExpDate=findViewById(R.id.drugDateInput);
         drugQuantity=findViewById(R.id.drugQuantityInput);
@@ -196,7 +191,7 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
             public void onClick(View v) {
                 if(formReadyToRequest()) {
                     PostRequest addDrugRequest = new PostRequest();
-                    addDrugRequest.execute("drugName", drugName.getText().toString(), "drugExpDate", drugExpDate.getText().toString(), "drugQuantity", drugQuantity.getText().toString());
+                    addDrugRequest.execute("user_id",String.valueOf(user_id),"drugName", drugName.getText().toString(), "drugExpDate", drugExpDate.getText().toString(), "drugQuantity", drugQuantity.getText().toString(),"unit_id",String.valueOf(unitId));
                 }
                 //openAddDrugActivity();
             }
@@ -242,6 +237,7 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        setUnitId(++position);
     }
 
     @Override
@@ -266,6 +262,8 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                     .add(strings[0],strings[1])
                     .add(strings[2],strings[3])
                     .add(strings[4],strings[5])
+                    .add(strings[6],strings[7])
+                    .add(strings[8],strings[9])
                     .build();
             Request request=new Request.Builder()
                     .url(postUrl)
@@ -287,6 +285,9 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
         }
     }
 
+    public void setUnitId(int unitId) {
+        this.unitId = unitId;
+    }
     private boolean formReadyToRequest() { return isNameOk() && isExpDateOk() && isQuantityOk();}
 
     public boolean isNameOk() {
