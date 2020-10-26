@@ -10,11 +10,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +29,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class addDrug extends AppCompatActivity {
+public class addDrug extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     protected EditText drugName;
     protected EditText drugExpDate;
     protected Spinner drugForm;
@@ -43,14 +45,24 @@ public class addDrug extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_drug);
 
-        drugForm = (Spinner) findViewById(R.id.drugFormSelector);
+        Spinner drugFormSpinner=findViewById(R.id.drugFormSelector);
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.form,
+                R.layout.spinner_color
+        );
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown);
+        drugFormSpinner.setAdapter(adapter);
+        drugFormSpinner.setOnItemSelectedListener(this);
+
+        //drugForm = (Spinner) findViewById(R.id.drugFormSelector);
 // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-               R.array.form, android.R.layout.simple_spinner_item);
+       // ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+             //  R.array.form, android.R.layout.simple_spinner_item);
 // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+       // adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
-        drugForm.setAdapter(adapter);
+       // drugForm.setAdapter(adapter);
 
         drugName=findViewById(R.id.drugNameInput);
         drugExpDate=findViewById(R.id.drugDateInput);
@@ -226,6 +238,14 @@ public class addDrug extends AppCompatActivity {
     {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
     }
 
     private class PostRequest extends AsyncTask<String,Void ,String >{
