@@ -3,9 +3,17 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@android:color/black</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="DatePicker" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="colorAccent">#00ccff</item>                   <!--header background-->
+        <item name="android:windowBackground">@android:color/black</item>     <!--calendar background-->
+        <item name="android:colorControlActivated">#00ccff</item> <!--selected day-->
+        <item name="android:textColorPrimary">#fff</item> <!--days of the month-->
+        <item name="android:textColorSecondary">#00ccff</item>    <!--days of the week-->
     </style>
 
 </resources>

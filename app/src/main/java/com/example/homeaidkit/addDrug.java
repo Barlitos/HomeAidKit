@@ -68,12 +68,12 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                 int month = calendar.get(Calendar.MONTH);
                 int year = calendar.get(Calendar.YEAR);
 
-                dpd = new DatePickerDialog(addDrug.this, new DatePickerDialog.OnDateSetListener() {
+                dpd = new DatePickerDialog(addDrug.this, R.style.DatePicker, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDay) {
                         date.setText(mDay + "-" + (mMonth+1) + "-" + mYear);
                     }
-                },day, month, year);
+                },year, month, day);
                 dpd.show();
             }
         });
