@@ -3,6 +3,7 @@ package com.example.homeaidkit;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,9 +15,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -24,6 +27,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.sql.SQLOutput;
+import java.util.Calendar;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -39,14 +43,41 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
     protected Spinner drugCategory;
 
     private int unitId;
-    private boolean isNameOk=false,isExpDateOk=false,isFormOk=false,isQuantityOk=false;
+    private boolean isNameOk=false,isFormOk=false,isQuantityOk=false;
 
-    private static final String postUrl="http://192.168.8.118/HomeAidKit/addDrug.php";
+    private static final String postUrl="http://192.168.0.6/HomeAidKit/addDrug.php";
+
+    TextView date;
+    Button selectDate;
+    Calendar calendar;
+    DatePickerDialog dpd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_drug);
+
+        date = (TextView)findViewById(R.id.dateView);
+        selectDate = (Button)findViewById(R.id.selectDateButton);
+
+        selectDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
+
+                dpd = new DatePickerDialog(addDrug.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int mYear, int mMonth, int mDay) {
+                        date.setText(mDay + "-" + (mMonth+1) + "-" + mYear);
+                    }
+                },day, month, year);
+                dpd.show();
+            }
+        });
+
     // spinner drug form
         drugForm=findViewById(R.id.drugFormSelector);
         ArrayAdapter adapter = ArrayAdapter.createFromResource(
@@ -60,7 +91,6 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
 
         final int user_id= getSharedPreferences("UserData",MODE_PRIVATE).getInt("user_id",-1);
         drugName=findViewById(R.id.drugNameInput);
-        drugExpDate=findViewById(R.id.drugDateInput);
         drugQuantity=findViewById(R.id.drugQuantityInput);
         drugCategory=findViewById(R.id.drugCategorySelector);
 
@@ -87,33 +117,6 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                 {
                     if(!isNameOk)
                         drugName.setError(getString(R.string.empty_name_error));
-                }
-            }
-        });
-
-        drugExpDate.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(drugExpDate.getText().toString().isEmpty())
-                {
-                    setExpDateOk(false);
-                }
-                else setExpDateOk(true);
-            }
-        });
-        drugExpDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus)
-                {
-                    if(!isExpDateOk)
-                        drugExpDate.setError(getString(R.string.empty_expDate_error));
                 }
             }
         });
@@ -288,20 +291,13 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
     public void setUnitId(int unitId) {
         this.unitId = unitId;
     }
-    private boolean formReadyToRequest() { return isNameOk() && isExpDateOk() && isQuantityOk();}
+    private boolean formReadyToRequest() { return isNameOk() && isQuantityOk();}
 
     public boolean isNameOk() {
         return isNameOk;
     }
     public void setNameOk(boolean NameOk) {
         isNameOk = NameOk;
-    }
-
-    public boolean isExpDateOk() {
-        return isExpDateOk;
-    }
-    public void setExpDateOk(boolean expDateOk) {
-        isExpDateOk = expDateOk;
     }
 
     public boolean isQuantityOk() {
