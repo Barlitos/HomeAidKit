@@ -37,7 +37,6 @@ import okhttp3.Response;
 
 public class addDrug extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     protected EditText drugName;
-    protected EditText drugExpDate;
     protected Spinner drugForm;
     protected EditText drugQuantity;
     protected Spinner drugCategory;
@@ -45,7 +44,7 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
     private int unitId;
     private boolean isNameOk=false,isFormOk=false,isQuantityOk=false;
 
-    private static final String postUrl="http://192.168.0.6/HomeAidKit/addDrug.php";
+    private static final String postUrl="http://192.168.8.118/HomeAidKit/addDrug.php";
 
     TextView date;
     Button selectDate;
@@ -73,7 +72,8 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDay) {
                         date.setText(mDay + "-" + (mMonth+1) + "-" + mYear);
                     }
-                },year, month, day);
+
+                },year,month,day);
                 dpd.show();
             }
         });
@@ -194,7 +194,8 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
             public void onClick(View v) {
                 if(formReadyToRequest()) {
                     PostRequest addDrugRequest = new PostRequest();
-                    addDrugRequest.execute("user_id",String.valueOf(user_id),"drugName", drugName.getText().toString(), "drugExpDate", drugExpDate.getText().toString(), "drugQuantity", drugQuantity.getText().toString(),"unit_id",String.valueOf(unitId));
+                    addDrugRequest.execute("user_id",String.valueOf(user_id),"drugName", drugName.getText().toString(), "drugExpDate", date.getText().toString(), "drugQuantity", drugQuantity.getText().toString(),"unit_id",String.valueOf(unitId));
+                    //System.out.println(date.getText().toString());
                 }
                 //openAddDrugActivity();
             }
@@ -254,7 +255,17 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
         }
         @Override
         protected void onPostExecute(String s) {
+            try {
+                JSONObject object=new JSONObject(s);
+                if(object.has("success"))
+                {
+                    Toast.makeText(addDrug.this,object.getString("message"),Toast.LENGTH_LONG).show();
+                }
 
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override

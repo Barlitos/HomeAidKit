@@ -32,7 +32,7 @@ import okhttp3.Response;
 public class LoginActivity extends AppCompatActivity {
 
 
-    private static final String postUrl="http://192.168.0.6/HomeAidKit/login.php";
+    private static final String postUrl="http://192.168.8.118/HomeAidKit/login.php";
     protected EditText login;
     protected EditText password;
 
