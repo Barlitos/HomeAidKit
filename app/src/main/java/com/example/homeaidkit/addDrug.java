@@ -43,7 +43,7 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
     protected Spinner drugCategory;
 
     private int unitId;
-    private boolean isNameOk=false,isFormOk=false,isQuantityOk=false;
+    private boolean isNameOk=false,isQuantityOk=false;
 
     private static final String postUrl="http://192.168.0.6/HomeAidKit/addDrug.php";
 
