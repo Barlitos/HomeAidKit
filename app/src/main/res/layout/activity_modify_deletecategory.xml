@@ -36,12 +36,12 @@
     <Button
         android:id="@+id/logOutButton"
         android:layout_width="0dp"
-        android:layout_height="16dp"
+        android:layout_height="30dp"
         android:text="Wyloguj"
         android:textColor="#000"
         android:background="#00ccff"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_alignParentRight="true" />

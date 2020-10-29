@@ -44,7 +44,7 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
     private int unitId;
     private boolean isNameOk=false,isQuantityOk=false;
 
-    private static final String postUrl="http://192.168.8.118/HomeAidKit/addDrug.php";
+    private static final String postUrl="http://192.168.0.6/HomeAidKit/addDrug.php";
 
     TextView date;
     Button selectDate;
@@ -260,6 +260,7 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                 if(object.has("success"))
                 {
                     Toast.makeText(addDrug.this,object.getString("message"),Toast.LENGTH_LONG).show();
+                    finish();
                 }
 
             }
