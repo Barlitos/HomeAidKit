@@ -38,8 +38,9 @@ public class addCategory extends AppCompatActivity {
         setContentView(R.layout.activity_add_category);
         postUrl=getString(R.string.host)+"addCategory.php";
 
-    categoryName=findViewById(R.id.categoryInput);
-
+        categoryName=findViewById(R.id.categoryInput);
+        SharedPreferences data=getSharedPreferences("UserData",MODE_PRIVATE);
+        final int user_id=data.getInt("user_id",-1);
         categoryName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -121,7 +122,7 @@ public class addCategory extends AppCompatActivity {
             public void onClick(View v) {
                 if (formReadyToRequest()) {
                     PostRequest CategoryName = new PostRequest();
-                    CategoryName.execute("categoryName", categoryName.getText().toString());
+                    CategoryName.execute("categoryName", categoryName.getText().toString(),"user_id",String.valueOf(user_id));
                     }
                     else
                         {
@@ -159,6 +160,7 @@ public class addCategory extends AppCompatActivity {
             OkHttpClient client =new OkHttpClient();
             RequestBody form=new FormBody.Builder()
                     .add(strings[0],strings[1])
+                    .add(strings[2],strings[3])
                     .build();
             Request request=new Request.Builder()
                     .url(postUrl)
