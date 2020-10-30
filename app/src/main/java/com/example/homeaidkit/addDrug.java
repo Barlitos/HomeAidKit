@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,20 +45,30 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
     private int unitId;
     private boolean isNameOk=false,isQuantityOk=false;
 
-    private static final String postUrl="http://192.168.0.6/HomeAidKit/addDrug.php";
+    private  String postUrl;
+    private  String categoriesUrl;
 
     TextView date;
     Button selectDate;
     Calendar calendar;
     DatePickerDialog dpd;
+    private String[] usersCategories;
+    private int[] categoriesId;
+    private int chosenCategoryId=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_drug);
+        postUrl=getString(R.string.host)+"addDrug.php";
+        categoriesUrl=getString(R.string.host)+"getUsersCategories.php";
 
-        date = (TextView)findViewById(R.id.dateView);
-        selectDate = (Button)findViewById(R.id.selectDateButton);
+        final int user_id= getSharedPreferences("UserData",MODE_PRIVATE).getInt("user_id",-1);
+        GetCategories request=new GetCategories();
+        request.execute("user_id",String.valueOf(user_id));
+
+        date = findViewById(R.id.dateView);
+        selectDate = findViewById(R.id.selectDateButton);
 
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +89,7 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
             }
         });
 
-    // spinner drug form
+        // spinner drug form
         drugForm=findViewById(R.id.drugFormSelector);
         ArrayAdapter adapter = ArrayAdapter.createFromResource(
                 this,
@@ -89,9 +100,9 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
         drugForm.setAdapter(adapter);
         drugForm.setOnItemSelectedListener(this);
 
-        final int user_id= getSharedPreferences("UserData",MODE_PRIVATE).getInt("user_id",-1);
         drugName=findViewById(R.id.drugNameInput);
         drugQuantity=findViewById(R.id.drugQuantityInput);
+
         drugCategory=findViewById(R.id.drugCategorySelector);
 
         drugName.addTextChangedListener(new TextWatcher() {
@@ -194,8 +205,12 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
             public void onClick(View v) {
                 if(formReadyToRequest()) {
                     PostRequest addDrugRequest = new PostRequest();
-                    addDrugRequest.execute("user_id",String.valueOf(user_id),"drugName", drugName.getText().toString(), "drugExpDate", date.getText().toString(), "drugQuantity", drugQuantity.getText().toString(),"unit_id",String.valueOf(unitId));
-                    //System.out.println(date.getText().toString());
+                    addDrugRequest.execute("user_id",String.valueOf(user_id),
+                            "drugName", drugName.getText().toString(),
+                            "drugExpDate", date.getText().toString(),
+                            "drugQuantity", drugQuantity.getText().toString(),
+                            "unit_id",String.valueOf(unitId),
+                            "category_id",String.valueOf(chosenCategoryId));
                 }
                 //openAddDrugActivity();
             }
@@ -243,7 +258,6 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         setUnitId(++position);
     }
-
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
@@ -262,7 +276,6 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                     Toast.makeText(addDrug.this,object.getString("message"),Toast.LENGTH_LONG).show();
                     finish();
                 }
-
             }
             catch (JSONException e) {
                 e.printStackTrace();
@@ -279,6 +292,7 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                     .add(strings[4],strings[5])
                     .add(strings[6],strings[7])
                     .add(strings[8],strings[9])
+                    .add(strings[10],strings[11])
                     .build();
             Request request=new Request.Builder()
                     .url(postUrl)
@@ -297,6 +311,76 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                 e.printStackTrace();
             }
             return "Unknown Error";
+        }
+    }
+    private class GetCategories extends AsyncTask <String,Void,String>
+    {
+        @Override
+        protected String doInBackground(String... strings) {
+            OkHttpClient client =new OkHttpClient();
+            RequestBody form=new FormBody.Builder()
+                    .add(strings[0],strings[1])
+                    //.add(strings[2],strings[3])
+                    .build();
+            Request request=new Request.Builder()
+                    .url(categoriesUrl)
+                    .post(form)
+                    .build();
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            assert response != null;
+            try {
+                return response.body().string();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "Unknown Error";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            try {
+                JSONObject object=new JSONObject(s);
+                if(object.has("empty") && object.getInt("empty")==0)
+                {
+                    JSONArray categories =object.getJSONArray("categories");
+                    usersCategories=new String[categories.length()];
+                    categoriesId=new int[categories.length()];
+
+                    for (int i = 0; i <categories.length() ; i++) {
+                        usersCategories[i]=categories.getJSONObject(i).getString("category_name");
+                        System.out.println(usersCategories[i]);
+                        categoriesId[i]=categories.getJSONObject(i).getInt("id");
+                        System.out.println(categoriesId[i]);
+                    }
+
+                    ArrayAdapter <String>categoriesAdapter=new ArrayAdapter<>(addDrug.this,R.layout.spinner_color,usersCategories);
+                    categoriesAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
+                    drugCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            chosenCategoryId=categoriesId[position];
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+                    drugCategory.setAdapter(categoriesAdapter);
+                    //categories.getJSONObject(1).get("category_name");
+                }
+                else{
+                    //Toast.makeText(addDrug.this,object.getString("message"),Toast.LENGTH_LONG).show();
+                }
+               // finish();
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 

@@ -61,12 +61,13 @@ public class register extends AppCompatActivity {
  private boolean isEmailOk=false,isLoginOk=false,isPasswordOk=true;
 
 
- private static final String postUrl="http://192.168.0.6/HomeAidKit/createAccount.php";
+ private String postUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        postUrl=getString(R.string.host)+"createAccount.php";
         login=findViewById(R.id.loginInput);
         email=findViewById(R.id.emailInput);
         password=findViewById(R.id.password1Input);

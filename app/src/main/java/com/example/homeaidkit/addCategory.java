@@ -30,14 +30,15 @@ public class addCategory extends AppCompatActivity {
     protected EditText categoryName;
     private boolean isCategoryNameOk=false;
 
-    private static final String postUrl="http://192.168.0.6/HomeAidKit/addCategory.php";
+    private String postUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_category);
+        postUrl=getString(R.string.host)+"addCategory.php";
 
-        categoryName=findViewById(R.id.categoryInput);
+    categoryName=findViewById(R.id.categoryInput);
 
         categoryName.addTextChangedListener(new TextWatcher() {
             @Override

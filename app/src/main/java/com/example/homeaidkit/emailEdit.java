@@ -26,13 +26,13 @@ public class emailEdit extends AppCompatActivity {
     protected EditText newEmail;
     protected EditText repeatEmail;
     protected EditText password;
-    private static final String postUrl="http://192.168.0.6/HomeAidKit/changeEmail.php";
+    private  String postUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_edit);
-
+        postUrl=getString(R.string.host)+"changeEmail.php";
         newEmail=findViewById(R.id.emailEdit1Input);
         repeatEmail=findViewById(R.id.emailEdit2Input);
         password=findViewById(R.id.passwordInput);

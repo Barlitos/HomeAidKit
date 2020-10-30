@@ -31,8 +31,7 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-
-    private static final String postUrl="http://192.168.0.6/HomeAidKit/login.php";
+    private String postUrl;
     protected EditText login;
     protected EditText password;
 
@@ -40,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        postUrl=getString(R.string.host)+"login.php";
         Bundle b = getIntent().getExtras();
         if(b!=null)
         {

@@ -28,7 +28,7 @@ public class passwordEdit extends AppCompatActivity {
     protected EditText newPassword;
     protected EditText repeatPassword;
     protected EditText password;
-    private static final String postUrl="http://192.168.0.6/HomeAidKit/changePassword.php";
+    private  String postUrl;
 
     private boolean isNewPasswordOk=false,isRepeatPasswordOk=false,isPasswordOk=true;
 
@@ -36,7 +36,7 @@ public class passwordEdit extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_edit);
-
+        postUrl=getString(R.string.host)+"changePassword.php";
         newPassword=findViewById(R.id.newPassword1Input);
         repeatPassword=findViewById(R.id.newpassword2Input);
         password=findViewById(R.id.passwordInput);
