@@ -105,6 +105,7 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
 
         drugCategory=findViewById(R.id.drugCategorySelector);
 
+
         drugName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -360,6 +361,7 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
 
                     ArrayAdapter <String>categoriesAdapter=new ArrayAdapter<>(addDrug.this,R.layout.spinner_color,usersCategories);
                     categoriesAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
+                    drugCategory.setAdapter(categoriesAdapter);
                     drugCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -369,7 +371,6 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                         public void onNothingSelected(AdapterView<?> parent) {
                         }
                     });
-                    drugCategory.setAdapter(categoriesAdapter);
                     //categories.getJSONObject(1).get("category_name");
                 }
                 else{
