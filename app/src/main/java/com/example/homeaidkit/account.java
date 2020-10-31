@@ -74,13 +74,13 @@ public class account extends AppCompatActivity {
 
     public void openEmailEdit()
     {
-        Intent intent = new Intent(this, emailEdit.class);
+        Intent intent = new Intent(this, editEmail.class);
         startActivity(intent);
     }
 
     public void openPasswordEdit()
     {
-        Intent intent = new Intent(this, passwordEdit.class);
+        Intent intent = new Intent(this, editPassword.class);
         startActivity(intent);
     }
 

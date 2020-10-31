@@ -8,12 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-public class drugModify extends AppCompatActivity {
+public class modifyDrug extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drug_modify);
+        setContentView(R.layout.activity_modify_drug);
 
         Button account = findViewById(R.id.accountButton);
         account.setOnClickListener(new View.OnClickListener() {

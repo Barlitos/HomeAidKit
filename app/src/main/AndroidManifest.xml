@@ -12,15 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".mostUsed"/>
-        <activity android:name=".passwordEdit" />
-        <activity android:name=".emailEdit" />
+        <activity android:name=".editPassword" />
+        <activity android:name=".editEmail" />
         <activity android:name=".account" />
         <activity android:name=".editDrug" />
         <activity android:name=".addDrug" />
-        <activity android:name=".modifyDeletecategory" />
+        <activity android:name=".modifyDeleteCategory" />
         <activity android:name=".addCategory" />
         <activity android:name=".categories" />
-        <activity android:name=".drugModify" />
+        <activity android:name=".modifyDrug" />
         <activity android:name=".register" />
 
         <activity android:name=".LoginActivity">

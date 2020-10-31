@@ -22,7 +22,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class emailEdit extends AppCompatActivity {
+public class editEmail extends AppCompatActivity {
     protected EditText newEmail;
     protected EditText repeatEmail;
     protected EditText password;
@@ -31,7 +31,7 @@ public class emailEdit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_email_edit);
+        setContentView(R.layout.activity_edit_email);
         postUrl=getString(R.string.host)+"changeEmail.php";
         newEmail=findViewById(R.id.emailEdit1Input);
         repeatEmail=findViewById(R.id.emailEdit2Input);
@@ -68,7 +68,7 @@ public class emailEdit extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(emailEdit.this,"Niepoprawnie wypełniono pola",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(editEmail.this,"Niepoprawnie wypełniono pola",Toast.LENGTH_SHORT).show();
                     if(newEmail.getText().toString().isEmpty()){
                         newEmail.setError(getString(R.string.empty_login_error));
                     }
@@ -94,7 +94,7 @@ public class emailEdit extends AppCompatActivity {
                 JSONObject response = new JSONObject(s);
                 if(response.has("success") && response.getInt("success")==1)
                 {
-                    Toast.makeText(emailEdit.this,response.getString("message"),Toast.LENGTH_LONG).show();
+                    Toast.makeText(editEmail.this,response.getString("message"),Toast.LENGTH_LONG).show();
                     finish();
                 }
             }

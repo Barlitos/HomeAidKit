@@ -24,7 +24,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class passwordEdit extends AppCompatActivity {
+public class editPassword extends AppCompatActivity {
     protected EditText newPassword;
     protected EditText repeatPassword;
     protected EditText password;
@@ -35,7 +35,7 @@ public class passwordEdit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_password_edit);
+        setContentView(R.layout.activity_edit_password);
         postUrl=getString(R.string.host)+"changePassword.php";
         newPassword=findViewById(R.id.newPassword1Input);
         repeatPassword=findViewById(R.id.newpassword2Input);
@@ -153,7 +153,7 @@ public class passwordEdit extends AppCompatActivity {
                     if (newPassword.getText().toString().isEmpty()
                 || !repeatPassword.getText().toString().equals(newPassword.getText().toString())
                             || password.getText().toString().isEmpty()) {
-                        Toast.makeText(passwordEdit.this, "Niepoprawnie wypełniono pola",
+                        Toast.makeText(editPassword.this, "Niepoprawnie wypełniono pola",
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         PostRequest changePassword = new PostRequest();
@@ -174,7 +174,7 @@ public class passwordEdit extends AppCompatActivity {
                 JSONObject response = new JSONObject(s);
                 if(response.has("success") && response.getInt("success")==1)
                 {
-                    Toast.makeText(passwordEdit.this,response.getString("message"),Toast.LENGTH_LONG).show();
+                    Toast.makeText(editPassword.this,response.getString("message"),Toast.LENGTH_LONG).show();
                     finish();
                 }
             }
