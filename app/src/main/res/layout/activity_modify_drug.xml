@@ -70,7 +70,9 @@
         android:text="Ilość: "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectedDrug" />
+        app:layout_constraintTop_toBottomOf="@id/selectedDrug"
+        android:focusableInTouchMode="true"
+        />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         app:layout_constraintTop_toBottomOf="@id/textView2"

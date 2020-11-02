@@ -1,11 +1,13 @@
 package com.example.homeaidkit;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -55,18 +57,22 @@ public class modifyDrug extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_drug);
+        Bundle pack= getIntent().getExtras();
 
         postUrl=getString(R.string.host)+"modifyDrug.php";
 
         SharedPreferences data=getSharedPreferences("UserData",MODE_PRIVATE);
         final int user_id=data.getInt("user_id",-1);
 
-        modifyDrugQuantity = (EditText) findViewById(R.id.quantityOfDrug);
-        addButton = (ImageButton) findViewById(R.id.addQuantityButton);
+        modifyDrugQuantity = findViewById(R.id.quantityOfDrug);
+        addButton = findViewById(R.id.addQuantityButton);
         addButton.setOnClickListener(clickListener);
-        minusButton = (ImageButton) findViewById(R.id.substractQuantityButton);
+        minusButton = findViewById(R.id.substractQuantityButton);
         minusButton.setOnClickListener(clickListener);
-        initQuantityCounter();
+
+        if(pack!=null){
+            initQuantityCounter(pack.getInt("quantity"));
+        }
 
         Button account = findViewById(R.id.accountButton);
         account.setOnClickListener(new View.OnClickListener() {
@@ -226,22 +232,22 @@ public class modifyDrug extends AppCompatActivity {
         }
     }
 
-    private void initQuantityCounter()
+    private void initQuantityCounter(int quantity)
     {
-        counter = 0;
-        modifyDrugQuantity.setText(counter + "");
+        counter=quantity;
+        modifyDrugQuantity.setText(String.valueOf(counter));
     }
 
     private void plusQuantityCounter()
     {
         counter++;
-        modifyDrugQuantity.setText(counter + "");
+        modifyDrugQuantity.setText(String.valueOf(counter));
     }
 
     private void minusQuantityCounter()
     {
         counter--;
-        modifyDrugQuantity.setText(counter + "");
+        modifyDrugQuantity.setText(String.valueOf(counter));
     }
 
     public void openAccountActivity()

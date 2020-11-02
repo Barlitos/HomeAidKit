@@ -5,17 +5,43 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.JsonReader;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+public class MainActivity extends AppCompatActivity implements DrugListAdapter.OnItemClickListener {
+
+    private String drugListUrl;
+    private List<Drug> drugList;
+    private ListView drugListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        drugListUrl=getString(R.string.host)+"getUsersDrugs.php";
+        final int user_id= getSharedPreferences("UserData",MODE_PRIVATE).getInt("user_id",-1);
+        GetUsersDrugs getlist=new GetUsersDrugs();
+        getlist.execute("user_id",String.valueOf(user_id));
+
+        drugListView=findViewById(R.id.drugList);
         Button account = findViewById(R.id.accountButton);
         account.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,11 +83,61 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private class getUsersDrugs extends AsyncTask<String,Void,String>
+    @Override
+    public void onItemClickListener(Drug drug) {
+        Intent openDrugModify=new Intent(MainActivity.this,modifyDrug.class);
+        openDrugModify.putExtra("name",drug.getName())
+                .putExtra("quantity",drug.getQuantity())
+                .putExtra("id",drug.getId());
+        startActivityForResult(openDrugModify,1);
+    }
+
+    private class GetUsersDrugs extends AsyncTask<String,Void,String>
     {
         @Override
         protected String doInBackground(String... strings) {
-            return null;
+            OkHttpClient client =new OkHttpClient();
+            RequestBody form=new FormBody.Builder()
+                    .add(strings[0],strings[1])
+                    //.add(strings[2],strings[3])
+                    .build();
+            Request request=new Request.Builder()
+                    .url(drugListUrl)
+                    .post(form)
+                    .build();
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            assert response != null;
+            try {
+                return response.body().string();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "Unknown Error";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            try {
+                JSONObject object=new JSONObject(s);
+                if(object.has("empty") && object.getInt("empty")==0) {
+                    JSONArray drugArr=object.getJSONArray("drugList");
+                    drugList= new ArrayList<>();
+                    for (int i = 0; i <drugArr.length(); i++) {
+                        object=drugArr.getJSONObject(i);
+                        drugList.add(new Drug(object.getInt("id"),object.getString("name"),String.valueOf(object.get("expiration_date")),object.getInt("quantity")));
+                    }
+                    System.out.println("WITAM");
+                    DrugListAdapter adapter=new DrugListAdapter(MainActivity.this,drugList);
+                    drugListView.setAdapter(adapter);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
     }
