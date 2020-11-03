@@ -1,20 +1,21 @@
 package com.example.homeaidkit;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -33,8 +34,11 @@ public class modifyDrug extends AppCompatActivity {
     private EditText modifyDrugQuantity;
     private ImageButton addButton;
     private ImageButton minusButton;
+    private TextView drugName;
+    private Switch mostUsed;
     private int counter;
-    private boolean isModifyDrugQuantityOk=false;
+    int index;
+    private boolean isModifyDrugQuantityOk=false,addToMostUsed=false;
 
     private String postUrl;
 
@@ -58,21 +62,42 @@ public class modifyDrug extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_drug);
         Bundle pack= getIntent().getExtras();
-
+        Drug modifiedDrug = null;
         postUrl=getString(R.string.host)+"modifyDrug.php";
-
-        SharedPreferences data=getSharedPreferences("UserData",MODE_PRIVATE);
-        final int user_id=data.getInt("user_id",-1);
 
         modifyDrugQuantity = findViewById(R.id.quantityOfDrug);
         addButton = findViewById(R.id.addQuantityButton);
         addButton.setOnClickListener(clickListener);
         minusButton = findViewById(R.id.substractQuantityButton);
         minusButton.setOnClickListener(clickListener);
+        drugName=findViewById(R.id.sselectedDrugName);
+        mostUsed=findViewById(R.id.mostUsedSwitch);
+        TextView expdate=findViewById(R.id.sselectedDrugDate);
+        TextView quantity=findViewById(R.id.sselectedDrugQuantity);
 
         if(pack!=null){
-            initQuantityCounter(pack.getInt("quantity"));
+            modifiedDrug=new Drug(pack.getInt("id"),pack.getString("name"),pack.getString("expDate"),pack.getInt("quantity"));
+            initQuantityCounter(modifiedDrug.getQuantity());
+            drugName.setText(modifiedDrug.getName());
+            expdate.setText(modifiedDrug.getExpDate());
+            quantity.setText(String.valueOf(modifiedDrug.getQuantity()));
+            index=pack.getInt("index");
         }
+        final int itemId=modifiedDrug.getId();
+
+        mostUsed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    addToMostUsed=true;
+                }
+                else {
+                    addToMostUsed=false;
+                }
+            }
+        });
+        SharedPreferences data=getSharedPreferences("UserData",MODE_PRIVATE);
+        final int user_id=data.getInt("user_id",-1);
 
         Button account = findViewById(R.id.accountButton);
         account.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +148,7 @@ public class modifyDrug extends AppCompatActivity {
             public void onClick(View v) {
                 if (formReadyToRequest()) {
                     PostRequest drugQuantity = new PostRequest();
-                    drugQuantity.execute("drugQuantity", modifyDrugQuantity.getText().toString(),"user_id",String.valueOf(user_id));
+                    drugQuantity.execute("item_id",String.valueOf(itemId),"drugQuantity", modifyDrugQuantity.getText().toString(),"user_id",String.valueOf(user_id));
                 }
                 else
                 {
@@ -192,9 +217,13 @@ public class modifyDrug extends AppCompatActivity {
             try
             {
                 JSONObject response = new JSONObject(s);
-                if(response.has("message"))
+                if(response.has("success"))
                 {
                     Toast.makeText(modifyDrug.this,response.getString("message"),Toast.LENGTH_LONG).show();
+                    Intent backtoMain=new Intent(modifyDrug.this,MainActivity.class);
+                    backtoMain.putExtra("quantity",Integer.parseInt(modifyDrugQuantity.getText().toString()))
+                            .putExtra("index",index);
+                    setResult(RESULT_OK,backtoMain);
                     finish();
                 }
             }

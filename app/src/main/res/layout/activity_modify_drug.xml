@@ -76,7 +76,7 @@
             android:layout_height="32dp"
             android:layout_weight="1"
             android:background="#000"
-            android:text="Isla"
+            android:text=""
             android:textColor="#00ccff"
             android:textSize="22sp" />
 

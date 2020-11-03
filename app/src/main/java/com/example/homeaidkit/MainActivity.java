@@ -1,5 +1,6 @@
 package com.example.homeaidkit;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -88,8 +89,21 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
         Intent openDrugModify=new Intent(MainActivity.this,modifyDrug.class);
         openDrugModify.putExtra("name",drug.getName())
                 .putExtra("quantity",drug.getQuantity())
-                .putExtra("id",drug.getId());
+                .putExtra("id",drug.getId())
+                .putExtra("expDate",drug.getExpDate())
+                .putExtra("index",drugList.indexOf(drug));
+        System.out.println(drugList.indexOf(drug));
         startActivityForResult(openDrugModify,1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK && data!=null) {
+            Bundle pack=data.getExtras();
+           // drugList.get(pack.getInt("index")).setQuantity(pack.getInt("quantity"));
+        }
+        System.out.println(drugList);
     }
 
     private class GetUsersDrugs extends AsyncTask<String,Void,String>
