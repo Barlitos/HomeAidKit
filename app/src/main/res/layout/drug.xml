@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000">
 
     <TextView
-        android:id="@+id/drugName"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="#8c8c8c"
-        android:textColor="#fff"
-        android:textSize="20sp" />
+    android:id="@+id/drugName"
+    android:layout_width="match_parent"
+    android:layout_height="32dp"
+    android:layout_weight="1"
+    android:background="#8c8c8c"
+    android:textColor="#fff"
+    android:textSize="24sp" />
 
     <TextView
         android:id="@+id/drugDate"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="32dp"
         android:layout_weight="1"
         android:background="#8c8c8c"
         android:textColor="#fff"
-        android:textSize="20sp" />
+        android:textSize="24sp"
+        android:textAlignment="center"/>
 
     <TextView
         android:id="@+id/drugQuantity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="32dp"
         android:layout_weight="1"
         android:background="#8c8c8c"
         android:textColor="#fff"
-        android:textSize="20sp" />
+        android:textSize="24sp"
+        android:textAlignment="center"
+        />
 
 </LinearLayout>

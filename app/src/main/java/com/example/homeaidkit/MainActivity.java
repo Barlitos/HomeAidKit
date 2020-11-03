@@ -131,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
                         object=drugArr.getJSONObject(i);
                         drugList.add(new Drug(object.getInt("id"),object.getString("name"),String.valueOf(object.get("expiration_date")),object.getInt("quantity")));
                     }
-                    System.out.println("WITAM");
                     DrugListAdapter adapter=new DrugListAdapter(MainActivity.this,drugList);
                     drugListView.setAdapter(adapter);
                 }
