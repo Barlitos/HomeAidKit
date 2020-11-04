@@ -111,7 +111,7 @@
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
         android:textSize="24sp"
-        android:text="Ilość: "
+        android:text="Liczba jednostek: "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/selectedDrug"
@@ -129,12 +129,11 @@
 
         <ImageButton
             android:backgroundTint="#000"
-            android:id="@+id/addQuantityButton"
+            android:id="@+id/substractQuantityButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_baseline_plus_one_24"
-             />
+            app:srcCompat="@drawable/ic_baseline_exposure_neg_1_24" />
 
         <EditText
             android:id="@+id/quantityOfDrug"
@@ -149,11 +148,12 @@
 
         <ImageButton
             android:backgroundTint="#000"
-            android:id="@+id/substractQuantityButton"
+            android:id="@+id/addQuantityButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_baseline_exposure_neg_1_24" />
+            app:srcCompat="@drawable/ic_baseline_plus_one_24"
+            />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

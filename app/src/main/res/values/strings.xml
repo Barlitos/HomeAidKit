@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">HomeAidKit</string>
-    <string name="host">http://192.168.8.118/HomeAidKit/</string>
+    <string name="host">http://192.168.0.3/HomeAidKit/</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_login">Login</string>
     <string name="prompt_password">Hasło</string>
-    <string name="hint_login">przykładowy</string>
+    <string name="hint_login">login</string>
     <string name="action_sign_up">Zarejestruj</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
