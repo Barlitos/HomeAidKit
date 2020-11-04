@@ -155,9 +155,8 @@ public class modifyDrug extends AppCompatActivity {
                     PostRequest drugQuantity = new PostRequest();
                     drugQuantity.execute("item_id",String.valueOf(itemId),"drugQuantity", modifyDrugQuantity.getText().toString(),"user_id",String.valueOf(user_id));
                 }
-                else
-                {
-                    Toast.makeText(modifyDrug.this, "Niepoprawnie wypełniono pole",Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(modifyDrug.this, "Niepoprawnie wypełniono pole", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -224,9 +223,11 @@ public class modifyDrug extends AppCompatActivity {
                 JSONObject response = new JSONObject(s);
                 if(response.has("success"))
                 {
-                    Toast.makeText(modifyDrug.this,response.getString("message"),Toast.LENGTH_LONG).show();
+                    Toast.makeText(modifyDrug.this,response.getString("message"),
+                            Toast.LENGTH_LONG).show();
                     Intent backtoMain=new Intent(modifyDrug.this,MainActivity.class);
-                    backtoMain.putExtra("quantity",Integer.parseInt(modifyDrugQuantity.getText().toString()))
+                    backtoMain.putExtra("quantity",
+                            Integer.parseInt(modifyDrugQuantity.getText().toString()))
                             .putExtra("index",index);
                     setResult(RESULT_OK,backtoMain);
                     finish();

@@ -7,30 +7,30 @@
     <TextView
     android:id="@+id/drugName"
     android:layout_width="match_parent"
-    android:layout_height="32dp"
+    android:layout_height="30dp"
     android:layout_weight="1"
     android:background="#8c8c8c"
     android:textColor="#fff"
-    android:textSize="24sp" />
+    android:textSize="22sp" />
 
     <TextView
         android:id="@+id/drugDate"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="30dp"
         android:layout_weight="1"
         android:background="#8c8c8c"
         android:textColor="#fff"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textAlignment="center"/>
 
     <TextView
         android:id="@+id/drugQuantity"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="30dp"
         android:layout_weight="1"
         android:background="#8c8c8c"
         android:textColor="#fff"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textAlignment="center"
         />
 
