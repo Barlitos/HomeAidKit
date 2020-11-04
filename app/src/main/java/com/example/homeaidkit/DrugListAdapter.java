@@ -43,7 +43,12 @@ public class DrugListAdapter extends ArrayAdapter<Drug>{
 
         drugName.setText(drug.getName());
         drugDate.setText(drug.getExpDate());
-        drugQuantity.setText(String.valueOf(drug.getQuantity()));
+        if(drug.getUnit()==1) {
+            drugQuantity.setText(String.valueOf(drug.getQuantity())+" szt");
+        }
+        else{
+            drugQuantity.setText(String.valueOf(drug.getQuantity())+" ml");
+        }
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

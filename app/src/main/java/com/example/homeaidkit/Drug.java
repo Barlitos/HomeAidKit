@@ -5,12 +5,22 @@ public class Drug {
     private String name;
     private String expDate;
     private int quantity;
+    private int unit;
 
-    public Drug(int id, String name, String expDate, int quantity) {
+    public Drug(int id, String name, String expDate, int quantity, int unit) {
         this.id = id;
         this.name = name;
         this.expDate = expDate;
         this.quantity = quantity;
+        this.unit=unit;
+    }
+
+    public int getUnit() {
+        return unit;
+    }
+
+    public void setUnit(int unit) {
+        this.unit = unit;
     }
 
     public int getId() {

@@ -76,11 +76,16 @@ public class modifyDrug extends AppCompatActivity {
         TextView quantity=findViewById(R.id.sselectedDrugQuantity);
 
         if(pack!=null){
-            modifiedDrug=new Drug(pack.getInt("id"),pack.getString("name"),pack.getString("expDate"),pack.getInt("quantity"));
+            modifiedDrug=new Drug(pack.getInt("id"),pack.getString("name"),pack.getString("expDate"),pack.getInt("quantity"),pack.getInt("unit"));
             initQuantityCounter(modifiedDrug.getQuantity());
             drugName.setText(modifiedDrug.getName());
             expdate.setText(modifiedDrug.getExpDate());
-            quantity.setText(String.valueOf(modifiedDrug.getQuantity()));
+            if(modifiedDrug.getUnit()==1) {
+                quantity.setText(String.valueOf(modifiedDrug.getQuantity())+" szt");
+            }
+            else{
+                quantity.setText(String.valueOf(modifiedDrug.getQuantity())+" ml");
+            }
             index=pack.getInt("index");
         }
         final int itemId=modifiedDrug.getId();
