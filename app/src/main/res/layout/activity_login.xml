@@ -98,7 +98,7 @@
         android:textColor="#8c8c8c"
         android:textColorHint="#8c8c8c"
         android:textSize="20sp"
-        android:hint="twoje hasło"
+        android:hint="hasło"
         android:inputType="textPassword"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="0dp"

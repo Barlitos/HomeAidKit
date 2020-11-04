@@ -100,7 +100,7 @@
             android:layout_weight="1"
             android:background="#000"
             android:textColor="#00ccff"
-            android:text="Ilość"
+            android:text="Liczba"
             android:textSize="20sp"
             android:textAlignment="center"
             />
