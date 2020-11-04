@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
     private String drugListUrl;
     private List<Drug> drugList;
     private ListView drugListView;
-
+    private DrugListAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,10 +100,13 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK && data!=null) {
+        System.out.println("RESULT");
+        if (requestCode == 1 && resultCode == RESULT_OK && data!=null && drugList!=null) {
             Bundle pack=data.getExtras();
-           // drugList.get(pack.getInt("index")).setQuantity(pack.getInt("quantity"));
+           drugList.get(pack.getInt("index")).setQuantity(pack.getInt("quantity"));
+           adapter.notifyDataSetChanged();
         }
+
         System.out.println(drugList);
     }
 
@@ -145,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
                         object=drugArr.getJSONObject(i);
                         drugList.add(new Drug(object.getInt("id"),object.getString("name"),String.valueOf(object.get("expiration_date")),object.getInt("quantity")));
                     }
-                    DrugListAdapter adapter=new DrugListAdapter(MainActivity.this,drugList);
+                    adapter=new DrugListAdapter(MainActivity.this,drugList);
                     drugListView.setAdapter(adapter);
                 }
             } catch (JSONException e) {
@@ -184,4 +188,5 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
         Intent intent = new Intent(this, addDrug.class);
         startActivity(intent);
     }
+
 }
