@@ -80,7 +80,10 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
         addDrug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openAddDrugActivity();
+
+                Intent openAddDrug=new Intent(MainActivity.this,addDrug.class);
+                startActivityForResult(openAddDrug,2);
+                //openAddDrugActivity();
             }
         });
     }
@@ -102,13 +105,27 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         System.out.println("RESULT");
-        if (requestCode == 1 && resultCode == RESULT_OK && data!=null && drugList!=null) {
-            Bundle pack=data.getExtras();
-           drugList.get(pack.getInt("index")).setQuantity(pack.getInt("quantity"));
-           adapter.notifyDataSetChanged();
+        switch (requestCode)
+        {
+            case 1:
+                if (resultCode == RESULT_OK && data!=null && drugList!=null) {
+                    Bundle pack=data.getExtras();
+                    drugList.get(pack.getInt("index")).setQuantity(pack.getInt("quantity"));
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case 2:
+                if (resultCode == RESULT_OK && data!=null && drugList!=null) {
+                    Bundle pack=data.getExtras();
+                    drugList.add(new Drug(pack.getInt("itemId"),
+                            pack.getString("name"),
+                            pack.getString("expDate"),
+                            pack.getInt("quantity"),
+                            pack.getInt("unit")));
+                    adapter.notifyDataSetChanged();
+                }
         }
-
-        System.out.println(drugList);
+        //System.out.println(drugList);
     }
 
     private class GetUsersDrugs extends AsyncTask<String,Void,String>

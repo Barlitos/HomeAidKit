@@ -272,8 +272,15 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
         protected void onPostExecute(String s) {
             try {
                 JSONObject object=new JSONObject(s);
-                if(object.has("success"))
+                if(object.has("success")&& object.getInt("success")==1)
                 {
+                    Intent backToMain=new Intent(addDrug.this,MainActivity.class);
+                    setResult(RESULT_OK,backToMain);
+                    backToMain.putExtra("itemId",object.getInt("itemId"))
+                    .putExtra("name",drugName.getText().toString())
+                    .putExtra("expDate",date.getText().toString())
+                    .putExtra("quantity",Integer.parseInt(drugQuantity.getText().toString()))
+                    .putExtra("unit",unitId);
                     Toast.makeText(addDrug.this,object.getString("message"),Toast.LENGTH_LONG).show();
                     finish();
                 }
