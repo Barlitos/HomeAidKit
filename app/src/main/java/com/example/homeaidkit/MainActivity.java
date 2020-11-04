@@ -92,7 +92,8 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
                 .putExtra("quantity",drug.getQuantity())
                 .putExtra("id",drug.getId())
                 .putExtra("expDate",drug.getExpDate())
-                .putExtra("index",drugList.indexOf(drug));
+                .putExtra("index",drugList.indexOf(drug))
+                .putExtra("unit",drug.getUnit());
         System.out.println(drugList.indexOf(drug));
         startActivityForResult(openDrugModify,1);
     }
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
                     drugList= new ArrayList<>();
                     for (int i = 0; i <drugArr.length(); i++) {
                         object=drugArr.getJSONObject(i);
-                        drugList.add(new Drug(object.getInt("id"),object.getString("name"),String.valueOf(object.get("expiration_date")),object.getInt("quantity")));
+                        drugList.add(new Drug(object.getInt("id"),object.getString("name"),String.valueOf(object.get("expiration_date")),object.getInt("quantity"),object.getInt("unit_id")));
                     }
                     adapter=new DrugListAdapter(MainActivity.this,drugList);
                     drugListView.setAdapter(adapter);
