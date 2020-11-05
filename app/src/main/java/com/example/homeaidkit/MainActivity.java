@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
                             pack.getInt("unit")));
                     adapter.notifyDataSetChanged();
                 }
+                break;
         }
         //System.out.println(drugList);
     }
