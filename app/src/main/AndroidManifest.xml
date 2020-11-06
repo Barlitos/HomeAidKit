@@ -22,6 +22,7 @@
         <activity android:name=".categories" />
         <activity android:name=".modifyDrug" />
         <activity android:name=".register" />
+        <activity android:name=".CategoryDrugList" />
 
         <activity android:name=".LoginActivity">
             <intent-filter>

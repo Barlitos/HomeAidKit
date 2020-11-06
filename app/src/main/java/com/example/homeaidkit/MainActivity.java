@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.JsonReader;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,7 +16,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
         GetUsersDrugs getlist=new GetUsersDrugs();
         getlist.execute("user_id",String.valueOf(user_id));
 
-        drugListView=findViewById(R.id.drugList);
+        drugListView=findViewById(R.id.categorydrugList);
         Button account = findViewById(R.id.accountButton);
         account.setOnClickListener(new View.OnClickListener() {
             @Override

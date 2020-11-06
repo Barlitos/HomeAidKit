@@ -24,7 +24,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class categories extends AppCompatActivity{
+public class categories extends AppCompatActivity implements CategoryListAdapter.OnItemClickListener{
 
     private String categoryListUrl;
     private List<Category> categoryList;
@@ -92,6 +92,14 @@ public class categories extends AppCompatActivity{
         });
     }
 
+    @Override
+    public void onItemClickListener(Category cat) {
+        Intent openModCategory=new Intent(categories.this,CategoryDrugList.class);
+        openModCategory.putExtra("name",cat.getName())
+        .putExtra("categoryId",cat.getId());
+        startActivity(openModCategory);
+    }
+
 
     private class GetUsersCategories extends AsyncTask<String,Void,String>
     {
@@ -126,11 +134,11 @@ public class categories extends AppCompatActivity{
             try {
                 JSONObject object=new JSONObject(s);
                 if(object.has("empty") && object.getInt("empty")==0) {
-                    JSONArray categoryArr=object.getJSONArray("categoryList");
+                    JSONArray categoryArr=object.getJSONArray("categories");
                     categoryList= new ArrayList<>();
                     for (int i = 0; i <categoryArr.length(); i++) {
                         object=categoryArr.getJSONObject(i);
-                        categoryList.add(new Category(object.getInt("id"),object.getString("name")));
+                        categoryList.add(new Category(object.getInt("id"),object.getString("category_name")));
                     }
                     adapter=new CategoryListAdapter(categories.this,categoryList);
                     categoryListView.setAdapter(adapter);

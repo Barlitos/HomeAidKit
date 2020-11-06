@@ -108,7 +108,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <ListView
-        android:id="@+id/drugList"
+        android:id="@+id/categorydrugList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"

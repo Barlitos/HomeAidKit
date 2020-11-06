@@ -14,9 +14,15 @@ import java.util.List;
 
 public class CategoryListAdapter extends ArrayAdapter<Category> {
 
+    private OnItemClickListener listener;
 
     public CategoryListAdapter(@NonNull Context context, List<Category> resource) {
         super(context, -1,resource);
+        listener= (OnItemClickListener)context;
+    }
+
+    interface OnItemClickListener{
+        void onItemClickListener(Category cat);
     }
 
     @NonNull
@@ -30,6 +36,12 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
 
         categoryName.setText(category.getName());
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               listener.onItemClickListener(category);
+            }
+        });
         return convertView;
     }
 }
