@@ -38,7 +38,7 @@ public class DrugListAdapter extends ArrayAdapter<Drug>{
         TextView drugDate=convertView.findViewById(R.id.drugDate);
         TextView drugQuantity=convertView.findViewById(R.id.drugQuantity);
 
-        SimpleDateFormat format=new SimpleDateFormat("dd-MM-YY");
+        SimpleDateFormat format=new SimpleDateFormat("dd-mm-yy");
         try {
             Date drugExpdate=format.parse(drug.getExpDate());
             if(today.after(drugExpdate)) {
@@ -63,10 +63,6 @@ public class DrugListAdapter extends ArrayAdapter<Drug>{
                 listener.onItemClickListener(drug);
             }
         });
-
-
         return convertView;
     }
-
-
 }
