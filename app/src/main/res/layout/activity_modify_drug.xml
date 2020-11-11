@@ -74,11 +74,12 @@
             android:id="@+id/sselectedDrugName"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:layout_weight="1"
+            android:layout_weight="0.9"
             android:background="#000"
             android:text=""
             android:textColor="#00ccff"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:textAlignment="textStart"/>
 
         <TextView
             android:id="@+id/sselectedDrugDate"
@@ -94,11 +95,11 @@
             android:id="@+id/sselectedDrugQuantity"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:layout_weight="1"
+            android:layout_weight="1.15"
             android:background="#000"
             android:textColor="#00ccff"
             android:textSize="22sp"
-            android:textAlignment="center"
+            android:textAlignment="textEnd"
             />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

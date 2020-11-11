@@ -74,6 +74,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/selectedCategoryy" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="0dp"
+                android:background="#8c8c8c"
+                app:layout_constraintTop_toBottomOf="@id/selectedCategoryView" />
+
             <Button
                 android:id="@+id/goToCategoryModify"
                 android:layout_width="0dp"
@@ -101,11 +109,12 @@
                     android:id="@+id/drugName"
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.9"
                     android:text="Nazwa leku"
                     android:background="#000"
                     android:textColor="#00ccff"
                     android:textSize="20dp"
+                    android:textAlignment="textStart"
                     />
 
                 <TextView
@@ -123,7 +132,7 @@
                     android:id="@+id/drugQuantity"
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
-                    android:layout_weight="1"
+                    android:layout_weight="1.15"
                     android:background="#000"
                     android:textColor="#00ccff"
                     android:text="Liczba"

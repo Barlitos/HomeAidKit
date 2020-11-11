@@ -42,9 +42,9 @@ public class DrugListAdapter extends ArrayAdapter<Drug>{
         try {
             Date drugExpdate=format.parse(drug.getExpDate());
             if(today.after(drugExpdate)) {
-                drugDate.setTextColor(Color.RED);
+                //drugDate.setTextColor(Color.RED);
             }else{
-                drugDate.setTextColor(Color.WHITE);
+                //drugDate.setTextColor(Color.WHITE);
             }
         } catch (ParseException e) {
             e.printStackTrace();
