@@ -28,6 +28,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import okhttp3.FormBody;
@@ -355,17 +356,34 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                 JSONObject object=new JSONObject(s);
                 if(object.has("empty") && object.getInt("empty")==0)
                 {
+                    final ArrayList<Category> userCategories=new ArrayList<>(); //
                     JSONArray categories =object.getJSONArray("categories");
                     usersCategories=new String[categories.length()];
                     categoriesId=new int[categories.length()];
 
+                    userCategories.add(new Category(0,"wybierz kategorię"));
                     for (int i = 0; i <categories.length() ; i++) {
                         usersCategories[i]=categories.getJSONObject(i).getString("category_name");
-                        System.out.println(usersCategories[i]);
+                        //System.out.println(usersCategories[i]);
                         categoriesId[i]=categories.getJSONObject(i).getInt("id");
-                        System.out.println(categoriesId[i]);
+                        //System.out.println(categoriesId[i]);
+                        userCategories.add(new Category(categories.getJSONObject(i).getInt("id"),
+                                categories.getJSONObject(i).getString("category_name"))); //
                     }
-
+                    ArrayAdapter <Category>categoriesAdapter= new ArrayAdapter<>(addDrug.this,R.layout.spinner_color,userCategories);
+                    categoriesAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
+                    drugCategory.setAdapter(categoriesAdapter);
+                    drugCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            chosenCategoryId=userCategories.get(position).getId();
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            chosenCategoryId=0;
+                        }
+                    });
+                    /*
                     ArrayAdapter <String>categoriesAdapter=new ArrayAdapter<>(addDrug.this,R.layout.spinner_color,usersCategories);
                     categoriesAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
                     drugCategory.setAdapter(categoriesAdapter);
@@ -376,8 +394,10 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                         }
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
+                            chosenCategoryId=0;
                         }
                     });
+                    */
                     //categories.getJSONObject(1).get("category_name");
                 }
                 else{

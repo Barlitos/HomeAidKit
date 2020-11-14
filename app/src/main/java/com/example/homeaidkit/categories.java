@@ -142,6 +142,7 @@ public class categories extends AppCompatActivity implements CategoryListAdapter
                     }
                     adapter=new CategoryListAdapter(categories.this,categoryList);
                     categoryListView.setAdapter(adapter);
+                    System.out.println(categoryList);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -1,5 +1,7 @@
 package com.example.homeaidkit;
 
+import androidx.annotation.NonNull;
+
 public class Category {
     private int id;
     private String name;
@@ -7,6 +9,12 @@ public class Category {
     public Category(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.getName();
     }
 
     public int getId() {
