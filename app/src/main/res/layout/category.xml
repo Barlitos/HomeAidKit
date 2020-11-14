@@ -12,5 +12,4 @@
         android:background="#8c8c8c"
         android:textColor="#fff"
         android:textSize="24sp" />
-
 </LinearLayout>

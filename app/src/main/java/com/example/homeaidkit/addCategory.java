@@ -100,7 +100,7 @@ public class addCategory extends AppCompatActivity {
             }
         });
 
-        ImageButton home = findViewById(R.id.hometButton);
+        ImageButton home = findViewById(R.id.homeButton);
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +145,7 @@ public class addCategory extends AppCompatActivity {
                 if(response.has("message"))
                 {
                     Toast.makeText(addCategory.this,response.getString("message"),Toast.LENGTH_LONG).show();
+                    openCategoriesActivity();
                     finish();
                 }
             }

@@ -1,12 +1,9 @@
 package com.example.homeaidkit;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -27,7 +24,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -105,7 +101,6 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
         drugQuantity=findViewById(R.id.drugQuantityInput);
 
         drugCategory=findViewById(R.id.drugCategorySelector);
-
 
         drugName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -214,7 +209,6 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                             "unit_id",String.valueOf(unitId),
                             "category_id",String.valueOf(chosenCategoryId));
                 }
-                //openAddDrugActivity();
             }
         });
     }
@@ -364,9 +358,7 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                     userCategories.add(new Category(0,"wybierz kategorię"));
                     for (int i = 0; i <categories.length() ; i++) {
                         usersCategories[i]=categories.getJSONObject(i).getString("category_name");
-                        //System.out.println(usersCategories[i]);
                         categoriesId[i]=categories.getJSONObject(i).getInt("id");
-                        //System.out.println(categoriesId[i]);
                         userCategories.add(new Category(categories.getJSONObject(i).getInt("id"),
                                 categories.getJSONObject(i).getString("category_name"))); //
                     }
@@ -383,32 +375,13 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                             chosenCategoryId=0;
                         }
                     });
-                    /*
-                    ArrayAdapter <String>categoriesAdapter=new ArrayAdapter<>(addDrug.this,R.layout.spinner_color,usersCategories);
-                    categoriesAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
-                    drugCategory.setAdapter(categoriesAdapter);
-                    drugCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            chosenCategoryId=categoriesId[position];
-                        }
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-                            chosenCategoryId=0;
-                        }
-                    });
-                    */
-                    //categories.getJSONObject(1).get("category_name");
                 }
                 else{
-                    //Toast.makeText(addDrug.this,object.getString("message"),Toast.LENGTH_LONG).show();
                 }
-               // finish();
             }
             catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
     }
 

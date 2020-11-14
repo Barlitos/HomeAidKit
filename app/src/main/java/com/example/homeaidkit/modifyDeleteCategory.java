@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -27,20 +28,27 @@ import okhttp3.Response;
 
 public class modifyDeleteCategory extends AppCompatActivity {
 
+    private TextView name;
     protected EditText editCategoryName;
     private boolean isCategoryNameOk=false;
-
     private String postUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_category);
+        setContentView(R.layout.activity_modify_deletecategory);
         postUrl=getString(R.string.host)+"editCategory.php";
+        name=findViewById(R.id.selectedCategoryView);
+        editCategoryName=findViewById(R.id.modifyCategoryInput);
+        Bundle pack=getIntent().getExtras();
 
-        editCategoryName=findViewById(R.id.categoryInput);
-        SharedPreferences data=getSharedPreferences("UserData",MODE_PRIVATE);
-        final int user_id=data.getInt("user_id",-1);
+        final int user_id=getSharedPreferences("UserData",MODE_PRIVATE).getInt("user_id",-1);
+        int category_id=0;
+        if(pack!=null){
+            name.setText(pack.getString("CategoryName"));
+            category_id=pack.getInt("categoryId");
+        }
+
         editCategoryName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -116,13 +124,15 @@ public class modifyDeleteCategory extends AppCompatActivity {
             }
         });
 
-        Button addCategory = findViewById(R.id.addCategoryButton);
-        addCategory.setOnClickListener(new View.OnClickListener() {
+        Button accpetCategoryModify = findViewById(R.id.acceptCategoryModify);
+        final int finalCategory_id = category_id;
+        System.out.println(finalCategory_id);
+        accpetCategoryModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (formReadyToRequest()) {
                     PostRequest CategoryName = new PostRequest();
-                    CategoryName.execute("categoryName", editCategoryName.getText().toString(),"user_id",String.valueOf(user_id));
+                    CategoryName.execute("categoryName", editCategoryName.getText().toString(),"user_id",String.valueOf(user_id),"categoryId",String.valueOf(finalCategory_id));
                 }
                 else
                 {
@@ -145,6 +155,7 @@ public class modifyDeleteCategory extends AppCompatActivity {
                 if(response.has("message"))
                 {
                     Toast.makeText(modifyDeleteCategory.this,response.getString("message"),Toast.LENGTH_LONG).show();
+                    openCategoriesActivity();
                     finish();
                 }
             }
@@ -161,6 +172,7 @@ public class modifyDeleteCategory extends AppCompatActivity {
             RequestBody form=new FormBody.Builder()
                     .add(strings[0],strings[1])
                     .add(strings[2],strings[3])
+                    .add(strings[4],strings[5])
                     .build();
             Request request=new Request.Builder()
                     .url(postUrl)
