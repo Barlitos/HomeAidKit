@@ -1,12 +1,8 @@
 package com.example.homeaidkit;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -27,7 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import okhttp3.FormBody;
@@ -52,14 +48,12 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
     Button selectDate;
     Calendar calendar;
     DatePickerDialog dpd;
-    private String[] usersCategories;
-    private int[] categoriesId;
     private int chosenCategoryId=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_drug);
+        setContentView(R.layout.activity_edit_drug);
         postUrl=getString(R.string.host)+"editDrug.php";
         categoriesUrl=getString(R.string.host)+"getUsersCategories.php";
 
@@ -245,12 +239,6 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
         startActivity(intent);
     }
 
-    public void openAddDrugActivity()
-    {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         setUnitId(++position);
@@ -343,24 +331,22 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
                 JSONObject object=new JSONObject(s);
                 if(object.has("empty") && object.getInt("empty")==0)
                 {
+                    final ArrayList<Category> userCategories=new ArrayList<>();
                     JSONArray categories =object.getJSONArray("categories");
-                    usersCategories=new String[categories.length()];
-                    categoriesId=new int[categories.length()];
+                    userCategories.add(new Category(0,"wybierz kategorię"));
 
                     for (int i = 0; i <categories.length() ; i++) {
-                        usersCategories[i]=categories.getJSONObject(i).getString("category_name");
-                        System.out.println(usersCategories[i]);
-                        categoriesId[i]=categories.getJSONObject(i).getInt("id");
-                        System.out.println(categoriesId[i]);
+                        userCategories.add(new Category(categories.getJSONObject(i).getInt("id"),
+                                categories.getJSONObject(i).getString("category_name")));
                     }
 
-                    ArrayAdapter <String>categoriesAdapter=new ArrayAdapter<>(editDrug.this,R.layout.spinner_color,usersCategories);
+                    ArrayAdapter <Category>categoriesAdapter=new ArrayAdapter<>(editDrug.this,R.layout.spinner_color,userCategories);
                     categoriesAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
                     editDrugCategory.setAdapter(categoriesAdapter);
                     editDrugCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            chosenCategoryId=categoriesId[position];
+                            chosenCategoryId=userCategories.get(position).getId();
                         }
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {

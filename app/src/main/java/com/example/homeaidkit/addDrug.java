@@ -53,8 +53,7 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
     Button selectDate;
     Calendar calendar;
     DatePickerDialog dpd;
-    private String[] usersCategories;
-    private int[] categoriesId;
+
     private int chosenCategoryId=0;
 
     @Override
@@ -237,7 +236,6 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
         startActivity(intent);
     }
 
-
     public void openHomeActivity()
     {
         Intent intent = new Intent(this, MainActivity.class);
@@ -247,12 +245,6 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
     public void openCategoriesActivity()
     {
         Intent intent = new Intent(this, categories.class);
-        startActivity(intent);
-    }
-
-    public void openAddDrugActivity()
-    {
-        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
@@ -356,17 +348,11 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                 JSONObject object=new JSONObject(s);
                 if(object.has("empty") && object.getInt("empty")==0)
                 {
-                    final ArrayList<Category> userCategories=new ArrayList<>(); //
+                    final ArrayList<Category> userCategories=new ArrayList<>();
                     JSONArray categories =object.getJSONArray("categories");
-                    usersCategories=new String[categories.length()];
-                    categoriesId=new int[categories.length()];
-
                     userCategories.add(new Category(0,"wybierz kategorię"));
-                    for (int i = 0; i <categories.length() ; i++) {
-                        usersCategories[i]=categories.getJSONObject(i).getString("category_name");
-                        //System.out.println(usersCategories[i]);
-                        categoriesId[i]=categories.getJSONObject(i).getInt("id");
-                        //System.out.println(categoriesId[i]);
+
+                    for(int i = 0; i <categories.length() ; i++){
                         userCategories.add(new Category(categories.getJSONObject(i).getInt("id"),
                                 categories.getJSONObject(i).getString("category_name"))); //
                     }
@@ -383,22 +369,6 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                             chosenCategoryId=0;
                         }
                     });
-                    /*
-                    ArrayAdapter <String>categoriesAdapter=new ArrayAdapter<>(addDrug.this,R.layout.spinner_color,usersCategories);
-                    categoriesAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
-                    drugCategory.setAdapter(categoriesAdapter);
-                    drugCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            chosenCategoryId=categoriesId[position];
-                        }
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-                            chosenCategoryId=0;
-                        }
-                    });
-                    */
-                    //categories.getJSONObject(1).get("category_name");
                 }
                 else{
                     //Toast.makeText(addDrug.this,object.getString("message"),Toast.LENGTH_LONG).show();
@@ -408,7 +378,6 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
             catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
     }
 

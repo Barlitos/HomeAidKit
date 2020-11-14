@@ -59,7 +59,8 @@
         android:queryHint="Wpisz nazwę leku"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logOutButton" />
+        app:layout_constraintTop_toBottomOf="@id/logOutButton"
+        android:focusableInTouchMode="true"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/drugListInformer"

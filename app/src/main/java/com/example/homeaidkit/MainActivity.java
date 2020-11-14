@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
     private List<Drug> drugList;
     private ListView drugListView;
     private DrugListAdapter adapter;
+    private SearchView search;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
         getlist.execute("user_id",String.valueOf(user_id));
 
         drugListView=findViewById(R.id.categorydrugList);
+        search=findViewById(R.id.searchField);
+        search.setFocusable(false);
+
         Button account = findViewById(R.id.accountButton);
         account.setOnClickListener(new View.OnClickListener() {
             @Override

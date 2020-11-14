@@ -173,6 +173,7 @@ public class categories extends AppCompatActivity implements CategoryListAdapter
     {
         Intent intent = new Intent(this, addDrug.class);
         startActivity(intent);
+        finish();
     }
 
     public void openHomeActivity()
