@@ -3,13 +3,18 @@ package com.example.homeaidkit;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +23,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -31,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
     private List<Drug> drugList;
     private ListView drugListView;
     private DrugListAdapter adapter;
+    private SearchView search;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
         getlist.execute("user_id",String.valueOf(user_id));
 
         drugListView=findViewById(R.id.categorydrugList);
+        search=findViewById(R.id.searchField);
+        search.setFocusable(false);
+
         Button account = findViewById(R.id.accountButton);
         account.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +94,11 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
                 //openAddDrugActivity();
             }
         });
+
     }
+
+    @Override
+    public void onBackPressed() {}
 
     @Override
     public void onItemClickListener(Drug drug) {
@@ -205,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
         Intent intent = new Intent(this, addDrug.class);
         startActivity(intent);
     }
+
 
    
 }

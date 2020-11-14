@@ -1,7 +1,6 @@
 package com.example.homeaidkit;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import java.util.List;
 
 public class DrugListAdapter extends ArrayAdapter<Drug>{
     private OnItemClickListener listener;
-    private Date today=new Date();
+   // private Date today=new Date();
 
     public DrugListAdapter(@NonNull Context context, List<Drug> resource) {
         super(context,-1,resource);
@@ -37,7 +36,7 @@ public class DrugListAdapter extends ArrayAdapter<Drug>{
         TextView drugName=convertView.findViewById(R.id.drugName);
         TextView drugDate=convertView.findViewById(R.id.drugDate);
         TextView drugQuantity=convertView.findViewById(R.id.drugQuantity);
-
+        /* NICE CONTENT WHICH DOESN'T WORK
         SimpleDateFormat format=new SimpleDateFormat("dd-mm-yy");
         try {
             Date drugExpdate=format.parse(drug.getExpDate());
@@ -49,6 +48,7 @@ public class DrugListAdapter extends ArrayAdapter<Drug>{
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        */
         drugName.setText(drug.getName());
         drugDate.setText(drug.getExpDate());
         if(drug.getUnit()==1) {

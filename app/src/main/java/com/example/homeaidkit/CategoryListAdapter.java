@@ -44,4 +44,5 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
         });
         return convertView;
     }
+
 }

@@ -259,4 +259,7 @@ public class editPassword extends AppCompatActivity {
     public void setPasswordOk(boolean passwordOk) {
         isPasswordOk = passwordOk;
     }
+
+    @Override
+    public void onBackPressed() {}
 }

@@ -113,4 +113,6 @@ public class account extends AppCompatActivity {
         Intent intent = new Intent(this, addDrug.class);
         startActivity(intent);
     }
+    @Override
+    public void onBackPressed() {}
 }

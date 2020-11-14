@@ -347,4 +347,7 @@ public class modifyDrug extends AppCompatActivity {
     public void setModifyDrugQuantityOk(boolean modifyDrugQuantityOk) {
         isModifyDrugQuantityOk = modifyDrugQuantityOk;
     }
+
+    @Override
+    public void onBackPressed() {}
 }

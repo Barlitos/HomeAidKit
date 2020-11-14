@@ -49,8 +49,7 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
     Button selectDate;
     Calendar calendar;
     DatePickerDialog dpd;
-    private String[] usersCategories;
-    private int[] categoriesId;
+
     private int chosenCategoryId=0;
 
     @Override
@@ -231,7 +230,6 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
         startActivity(intent);
     }
 
-
     public void openHomeActivity()
     {
         Intent intent = new Intent(this, MainActivity.class);
@@ -241,12 +239,6 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
     public void openCategoriesActivity()
     {
         Intent intent = new Intent(this, categories.class);
-        startActivity(intent);
-    }
-
-    public void openAddDrugActivity()
-    {
-        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
@@ -350,15 +342,11 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                 JSONObject object=new JSONObject(s);
                 if(object.has("empty") && object.getInt("empty")==0)
                 {
-                    final ArrayList<Category> userCategories=new ArrayList<>(); //
+                    final ArrayList<Category> userCategories=new ArrayList<>();
                     JSONArray categories =object.getJSONArray("categories");
-                    usersCategories=new String[categories.length()];
-                    categoriesId=new int[categories.length()];
-
                     userCategories.add(new Category(0,"wybierz kategorię"));
-                    for (int i = 0; i <categories.length() ; i++) {
-                        usersCategories[i]=categories.getJSONObject(i).getString("category_name");
-                        categoriesId[i]=categories.getJSONObject(i).getInt("id");
+
+                    for(int i = 0; i <categories.length() ; i++){
                         userCategories.add(new Category(categories.getJSONObject(i).getInt("id"),
                                 categories.getJSONObject(i).getString("category_name"))); //
                     }
@@ -403,4 +391,7 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
     public void setQuantityOk(boolean QuantityOk) {
         isQuantityOk = QuantityOk;
     }
+
+    @Override
+    public void onBackPressed() {}
 }

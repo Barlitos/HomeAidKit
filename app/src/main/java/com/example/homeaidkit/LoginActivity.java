@@ -141,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             return "Unknown Error";
         }
-
     }
-
+    @Override
+    public void onBackPressed() {}
 }

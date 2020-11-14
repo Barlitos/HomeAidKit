@@ -243,4 +243,7 @@ public class modifyDeleteCategory extends AppCompatActivity {
     public void setCategoryNameOk(boolean CategoryNameOk) {
         isCategoryNameOk = CategoryNameOk;
     }
+
+    @Override
+    public void onBackPressed() {}
 }

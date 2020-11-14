@@ -147,4 +147,7 @@ public class editEmail extends AppCompatActivity {
         Intent intent = new Intent(this, account.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {}
 }

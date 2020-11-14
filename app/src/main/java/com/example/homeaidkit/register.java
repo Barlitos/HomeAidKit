@@ -175,15 +175,14 @@ public class register extends AppCompatActivity {
         loggingIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openLogingInActivity("");
+                openLogingInActivity();
             }
         });
     }
 
-    public void openLogingInActivity(String message)
+    public void openLogingInActivity()
     {
         Intent intent = new Intent(this, LoginActivity.class);
-        intent.putExtra("message", message);
         startActivity(intent);
     }
 
@@ -208,7 +207,7 @@ public class register extends AppCompatActivity {
 
                 if(object.getInt("success")==1)
                 {
-                    openLogingInActivity(object.getString("message"));
+                    openLogingInActivity();
                 }
             }
             catch (JSONException e) {
@@ -275,4 +274,6 @@ public class register extends AppCompatActivity {
     public void setPasswordOk(boolean passwordOk) {
         isPasswordOk = passwordOk;
     }
+    @Override
+    public void onBackPressed() {}
 }

@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -112,7 +113,15 @@ public class CategoryDrugList extends AppCompatActivity implements DrugListAdapt
 
     @Override
     public void onItemClickListener(Drug drug) {
-        System.out.println("TAK");
+        Intent openDrugModify=new Intent(CategoryDrugList.this,modifyDrug.class);
+        openDrugModify.putExtra("name",drug.getName())
+                .putExtra("quantity",drug.getQuantity())
+                .putExtra("id",drug.getId())
+                .putExtra("expDate",drug.getExpDate())
+                .putExtra("index",drugList.indexOf(drug))
+                .putExtra("unit",drug.getUnit());
+        System.out.println(drugList.indexOf(drug));
+        startActivityForResult(openDrugModify,1);
     }
 
     private class getCategoryDrugList extends AsyncTask<String,Void,String>{
@@ -157,6 +166,9 @@ public class CategoryDrugList extends AppCompatActivity implements DrugListAdapt
                     }
                     adapter=new DrugListAdapter(CategoryDrugList.this,drugList);
                     drugListView.setAdapter(adapter);
+                }
+                else{
+                    Toast.makeText(CategoryDrugList.this,object.getString("message"),Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -205,4 +217,6 @@ public class CategoryDrugList extends AppCompatActivity implements DrugListAdapt
         Intent intent = new Intent(this, categories.class);
         startActivity(intent);
     }
+    @Override
+    public void onBackPressed() {}
 }
