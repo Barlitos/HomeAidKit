@@ -223,6 +223,7 @@ public class modifyDrug extends AppCompatActivity {
                 JSONObject response = new JSONObject(s);
                 if(response.has("success"))
                 {
+                    System.out.println(" PARENT ACTIVITY : "+getParent());
                     Toast.makeText(modifyDrug.this,response.getString("message"),
                             Toast.LENGTH_LONG).show();
                     Intent backtoMain=new Intent(modifyDrug.this,MainActivity.class);

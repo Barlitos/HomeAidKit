@@ -110,6 +110,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <ListView
+        android:nestedScrollingEnabled="true"
         android:id="@+id/categorydrugList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

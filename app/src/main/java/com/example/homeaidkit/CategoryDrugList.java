@@ -124,6 +124,34 @@ public class CategoryDrugList extends AppCompatActivity implements DrugListAdapt
         startActivityForResult(openDrugModify,1);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("RESULT");
+        switch (requestCode)
+        {
+            case 1:
+                if (resultCode == RESULT_OK && data!=null && drugList!=null) {
+                    Bundle pack=data.getExtras();
+                    drugList.get(pack.getInt("index")).setQuantity(pack.getInt("quantity"));
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case 2:
+                if (resultCode == RESULT_OK && data!=null && drugList!=null) {
+                    Bundle pack=data.getExtras();
+                    drugList.add(new Drug(pack.getInt("itemId"),
+                            pack.getString("name"),
+                            pack.getString("expDate"),
+                            pack.getInt("quantity"),
+                            pack.getInt("unit")));
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+        }
+        //System.out.println(drugList);
+    }
+
     private class getCategoryDrugList extends AsyncTask<String,Void,String>{
 
         @Override
