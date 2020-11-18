@@ -39,7 +39,7 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
     protected Spinner editDrugCategory;
 
     private int unitId;
-    private boolean isNameOk=false,isQuantityOk=false;
+    private boolean isNameOk=true,isQuantityOk=false;
 
     private  String postUrl;
     private  String categoriesUrl;
@@ -67,11 +67,12 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
         final Bundle pack=getIntent().getExtras();
         date = findViewById(R.id.dateView);
         selectDate = findViewById(R.id.selectDateButton);
-
+        TextView drugName=findViewById(R.id.selectedDrug);
         if (pack!=null){
+            drugName.setText(pack.getString("name"));
             editDrugName.setText(pack.getString("name"));
             date.setText(pack.getString("expDate"));
-            editDrugQuantity.setText(pack.getString("quantity"));
+            editDrugQuantity.setText(String.valueOf(pack.getInt("quantity")));
         }
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +107,11 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
         editDrugName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if(editDrugName.getText().toString().isEmpty())
+                {
+                    setNameOk(false);
+                }
+                else setNameOk(true);
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -260,11 +266,12 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
         @Override
         protected void onPostExecute(String s) {
             try {
-                System.out.println(s);
                 JSONObject object=new JSONObject(s);
                 if(object.has("success"))
                 {
+                    Intent backToMain =new Intent(editDrug.this,MainActivity.class);
                     Toast.makeText(editDrug.this,object.getString("message"),Toast.LENGTH_LONG).show();
+                    startActivity(backToMain);
                     finish();
                 }
             }
