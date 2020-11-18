@@ -39,7 +39,7 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
     protected Spinner editDrugCategory;
 
     private int unitId;
-    private boolean isNameOk=true,isQuantityOk=false;
+    private boolean isNameOk=true,isQuantityOk=true;
 
     private  String postUrl;
     private  String categoriesUrl;
@@ -67,9 +67,9 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
         final Bundle pack=getIntent().getExtras();
         date = findViewById(R.id.dateView);
         selectDate = findViewById(R.id.selectDateButton);
-        TextView drugName=findViewById(R.id.selectedDrug);
+        //TextView drugName=findViewById(R.id.selectedDrug);
         if (pack!=null){
-            drugName.setText(pack.getString("name"));
+            //drugName.setText(pack.getString("name"));
             editDrugName.setText(pack.getString("name"));
             date.setText(pack.getString("expDate"));
             editDrugQuantity.setText(String.valueOf(pack.getInt("quantity")));
