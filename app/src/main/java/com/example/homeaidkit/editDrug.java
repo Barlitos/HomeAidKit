@@ -64,10 +64,15 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
         editDrugName=findViewById(R.id.drugNameInput);
         editDrugQuantity=findViewById(R.id.drugQuantityInput);
         editDrugCategory=findViewById(R.id.drugCategorySelector);
-
+        final Bundle pack=getIntent().getExtras();
         date = findViewById(R.id.dateView);
         selectDate = findViewById(R.id.selectDateButton);
 
+        if (pack!=null){
+            editDrugName.setText(pack.getString("name"));
+            date.setText(pack.getString("expDate"));
+            editDrugQuantity.setText(pack.getString("quantity"));
+        }
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,8 +202,8 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
             @Override
             public void onClick(View v) {
                 if(formReadyToRequest()) {
-                    PostRequest addDrugRequest = new PostRequest();
-                    addDrugRequest.execute("user_id",String.valueOf(user_id),
+                    PostRequest editDrugRequest = new PostRequest();
+                    editDrugRequest.execute("itemId",String.valueOf(pack.getInt("id")),
                             "drugName", editDrugName.getText().toString(),
                             "drugExpDate", date.getText().toString(),
                             "drugQuantity", editDrugQuantity.getText().toString(),
@@ -255,6 +260,7 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
         @Override
         protected void onPostExecute(String s) {
             try {
+                System.out.println(s);
                 JSONObject object=new JSONObject(s);
                 if(object.has("success"))
                 {
@@ -349,8 +355,7 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
                             chosenCategoryId=userCategories.get(position).getId();
                         }
                         @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-                        }
+                        public void onNothingSelected(AdapterView<?> parent) { chosenCategoryId=0;}
                     });
                 }
                 else{}

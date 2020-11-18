@@ -39,7 +39,7 @@ public class modifyDrug extends AppCompatActivity {
     private int counter;
     int index;
     private boolean isModifyDrugQuantityOk=false,addToMostUsed=false;
-
+    private Drug modifiedDrug;
     private String postUrl;
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
@@ -62,7 +62,7 @@ public class modifyDrug extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_drug);
         Bundle pack= getIntent().getExtras();
-        Drug modifiedDrug = null;
+
         postUrl=getString(R.string.host)+"modifyDrug.php";
 
         modifyDrugQuantity = findViewById(R.id.quantityOfDrug);
@@ -88,6 +88,7 @@ public class modifyDrug extends AppCompatActivity {
             }
             index=pack.getInt("index");
         }
+
         final int itemId=modifiedDrug.getId();
 
         mostUsed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -153,7 +154,10 @@ public class modifyDrug extends AppCompatActivity {
             public void onClick(View v) {
                 if (formReadyToRequest()) {
                     PostRequest drugQuantity = new PostRequest();
-                    drugQuantity.execute("item_id",String.valueOf(itemId),"drugQuantity", modifyDrugQuantity.getText().toString(),"user_id",String.valueOf(user_id));
+                    drugQuantity.execute("item_id",String.valueOf(itemId),
+                            "drugQuantity", modifyDrugQuantity.getText().toString(),
+                            "user_id",String.valueOf(user_id),
+                            "mostUsed",String.valueOf(addToMostUsed));
                 }
                 else {
                     Toast.makeText(modifyDrug.this, "Niepoprawnie wypełniono pole", Toast.LENGTH_SHORT).show();
@@ -165,7 +169,14 @@ public class modifyDrug extends AppCompatActivity {
         editDrug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openEditDrugActivity();
+                Intent intent = new Intent(modifyDrug.this, editDrug.class);
+                intent.putExtra("name",modifiedDrug.getName())
+                        .putExtra("quantity",modifiedDrug.getQuantity())
+                        .putExtra("id",modifiedDrug.getId())
+                        .putExtra("expDate",modifiedDrug.getExpDate())
+                        .putExtra("index",index)
+                        .putExtra("unit",modifiedDrug.getUnit());
+                startActivity(intent);
             }
         });
 
@@ -223,7 +234,7 @@ public class modifyDrug extends AppCompatActivity {
                 JSONObject response = new JSONObject(s);
                 if(response.has("success"))
                 {
-                    System.out.println(" PARENT ACTIVITY : "+getParent());
+                    //System.out.println(" PARENT ACTIVITY : "+getParent());
                     Toast.makeText(modifyDrug.this,response.getString("message"),
                             Toast.LENGTH_LONG).show();
                     Intent backtoMain=new Intent(modifyDrug.this,MainActivity.class);
@@ -295,18 +306,6 @@ public class modifyDrug extends AppCompatActivity {
     public void openLogOutActivity()
     {
         Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-
-    public void openMainActivity()
-    {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    public void openEditDrugActivity()
-    {
-        Intent intent = new Intent(this, editDrug.class);
         startActivity(intent);
     }
 
