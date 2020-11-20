@@ -49,7 +49,7 @@ public class CategoryDrugList extends AppCompatActivity implements DrugListAdapt
             name.setText(pack.getString("name"));
             category_id=pack.getInt("categoryId");
         }
-        System.out.println(userId+" "+category_id);
+
         getCategoryDrugList getlist=new getCategoryDrugList();
         getlist.execute("userId",String.valueOf(userId),"categoryId",String.valueOf(category_id));
 
@@ -149,7 +149,7 @@ public class CategoryDrugList extends AppCompatActivity implements DrugListAdapt
                 }
                 break;
         }
-        //System.out.println(drugList);
+        System.out.println(drugList);
     }
 
     private class getCategoryDrugList extends AsyncTask<String,Void,String>{

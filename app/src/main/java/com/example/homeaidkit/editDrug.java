@@ -1,6 +1,8 @@
 package com.example.homeaidkit;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -50,6 +52,7 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
     DatePickerDialog dpd;
     private int chosenCategoryId=0;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +75,11 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
             //drugName.setText(pack.getString("name"));
             editDrugName.setText(pack.getString("name"));
             date.setText(pack.getString("expDate"));
-            editDrugQuantity.setText(String.valueOf(pack.getInt("quantity")));
+            if(pack.getInt("unit")==1) {
+                editDrugQuantity.setText(pack.getInt("quantity")+" szt");
+            }else {
+                editDrugQuantity.setText(pack.getInt("quantity")+" ml");
+            }
         }
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -266,6 +273,7 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
         @Override
         protected void onPostExecute(String s) {
             try {
+                System.out.println(s);
                 JSONObject object=new JSONObject(s);
                 if(object.has("success"))
                 {
@@ -342,30 +350,31 @@ public class editDrug extends AppCompatActivity implements AdapterView.OnItemSel
         protected void onPostExecute(String s) {
             try {
                 JSONObject object=new JSONObject(s);
-                if(object.has("empty") && object.getInt("empty")==0)
-                {
-                    final ArrayList<Category> userCategories=new ArrayList<>();
-                    JSONArray categories =object.getJSONArray("categories");
-                    userCategories.add(new Category(0,"wybierz kategorię"));
+                if(object.has("empty") && object.getInt("empty")==0) {
+                    final ArrayList<Category> userCategories = new ArrayList<>();
+                    JSONArray categories = object.getJSONArray("categories");
+                    userCategories.add(new Category(0, "wybierz kategorię"));
 
-                    for (int i = 0; i <categories.length() ; i++) {
+                    for (int i = 0; i < categories.length(); i++) {
                         userCategories.add(new Category(categories.getJSONObject(i).getInt("id"),
                                 categories.getJSONObject(i).getString("category_name")));
                     }
 
-                    ArrayAdapter <Category>categoriesAdapter=new ArrayAdapter<>(editDrug.this,R.layout.spinner_color,userCategories);
+                    ArrayAdapter<Category> categoriesAdapter = new ArrayAdapter<>(editDrug.this, R.layout.spinner_color, userCategories);
                     categoriesAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
                     editDrugCategory.setAdapter(categoriesAdapter);
                     editDrugCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            chosenCategoryId=userCategories.get(position).getId();
+                            chosenCategoryId = userCategories.get(position).getId();
                         }
+
                         @Override
-                        public void onNothingSelected(AdapterView<?> parent) { chosenCategoryId=0;}
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            chosenCategoryId = 0;
+                        }
                     });
                 }
-                else{}
             }
             catch (JSONException e) {
                 e.printStackTrace();
