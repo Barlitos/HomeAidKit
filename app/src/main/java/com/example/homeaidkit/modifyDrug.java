@@ -1,7 +1,10 @@
 package com.example.homeaidkit;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AlertDialogLayout;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -41,6 +44,8 @@ public class modifyDrug extends AppCompatActivity {
     private boolean isModifyDrugQuantityOk=false,addToMostUsed=false;
     private Drug modifiedDrug;
     private String postUrl;
+    private String deleteUrl;
+    AlertDialog.Builder builder;
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
@@ -64,6 +69,7 @@ public class modifyDrug extends AppCompatActivity {
         Bundle pack= getIntent().getExtras();
 
         postUrl=getString(R.string.host)+"modifyDrug.php";
+        deleteUrl=getString(R.string.host)+"deleteDrug.php";
 
         modifyDrugQuantity = findViewById(R.id.quantityOfDrug);
         addButton = findViewById(R.id.addQuantityButton);
@@ -180,11 +186,35 @@ public class modifyDrug extends AppCompatActivity {
             }
         });
 
+        builder = new AlertDialog.Builder(this, R.style.DialogTheme);
         Button deleteDrug = findViewById(R.id.DeleteDrugButton);
         deleteDrug.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                openDeleteDrugActivity();
+            public void onClick(View v)
+            {
+                builder.setMessage("Czy na pewno chcesz usunąć lek?")
+                        .setCancelable(false)
+                        .setPositiveButton("Tak", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int id)
+                            {
+                                DeleteRequest drugDelete = new DeleteRequest();
+                                drugDelete.execute("item_id",String.valueOf(itemId));
+                            }
+                        })
+                        .setNegativeButton("Nie", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int id)
+                            {
+                                openHomeActivity();
+                                finish();
+                                dialog.cancel();
+                                Toast.makeText(getApplicationContext(),"Nie usunięto leku",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.setTitle("Usuwanie leku");
+                alert.show();
             }
         });
 
@@ -220,6 +250,56 @@ public class modifyDrug extends AppCompatActivity {
             }
         });
 
+    }
+
+    private class DeleteRequest extends AsyncTask<String,Void ,String > {
+
+        @Override
+        protected void onPreExecute() {
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            try
+            {
+                JSONObject response = new JSONObject(s);
+                if(response.has("success") && response.getInt("success")==1)
+                {
+                    Toast.makeText(modifyDrug.this,response.getString("message"),Toast.LENGTH_LONG).show();
+                    openHomeActivity();
+                    finish();
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(String... strings){
+
+            OkHttpClient client =new OkHttpClient();
+            RequestBody form=new FormBody.Builder()
+                    .add(strings[0],strings[1])
+                    .build();
+            Request request=new Request.Builder()
+                    .url(deleteUrl)
+                    .post(form)
+                    .build();
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            assert response != null;
+            try {
+                return response.body().string();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "Unknown Error";
+        }
     }
 
     private class PostRequest extends AsyncTask<String,Void ,String > {

@@ -1,7 +1,9 @@
 package com.example.homeaidkit;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -32,12 +34,15 @@ public class modifyDeleteCategory extends AppCompatActivity {
     protected EditText editCategoryName;
     private boolean isCategoryNameOk=false;
     private String postUrl;
+    private String deleteUrl;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_deletecategory);
         postUrl=getString(R.string.host)+"editCategory.php";
+        deleteUrl=getString(R.string.host)+"deleteCategory.php";
         name=findViewById(R.id.selectedCategoryView);
         editCategoryName=findViewById(R.id.modifyCategoryInput);
         Bundle pack=getIntent().getExtras();
@@ -126,7 +131,6 @@ public class modifyDeleteCategory extends AppCompatActivity {
 
         Button accpetCategoryModify = findViewById(R.id.acceptCategoryModify);
         final int finalCategory_id = category_id;
-        System.out.println(finalCategory_id);
         accpetCategoryModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,6 +144,89 @@ public class modifyDeleteCategory extends AppCompatActivity {
                 }
             }
         });
+
+        builder = new AlertDialog.Builder(this, R.style.DialogTheme);
+        Button deleteCategory = findViewById(R.id.DeleteCategory);
+        deleteCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                builder.setMessage("Czy na pewno chcesz usunąć kategorię?")
+                        .setCancelable(false)
+                        .setPositiveButton("Tak", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int id)
+                            {
+                                DeleteRequest CategoryDelete = new DeleteRequest();
+                                CategoryDelete.execute("categoryId",String.valueOf(finalCategory_id));
+                            }
+                        })
+                        .setNegativeButton("Nie", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int id)
+                            {
+                                openCategoriesActivity();
+                                finish();
+                                dialog.cancel();
+                                Toast.makeText(getApplicationContext(),"Nie usunięto kategorii",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.setTitle("Usuwanie kategorii");
+                alert.show();
+            }
+        });
+
+    }
+
+    private class DeleteRequest extends AsyncTask<String,Void ,String > {
+
+        @Override
+        protected void onPreExecute() {
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            try
+            {
+                JSONObject response = new JSONObject(s);
+                if(response.has("success") && response.getInt("success")==1)
+                {
+                    Toast.makeText(modifyDeleteCategory.this,response.getString("message"),Toast.LENGTH_LONG).show();
+                    openCategoriesActivity();
+                    finish();
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(String... strings){
+
+            OkHttpClient client =new OkHttpClient();
+            RequestBody form=new FormBody.Builder()
+                    .add(strings[0],strings[1])
+                    .build();
+            Request request=new Request.Builder()
+                    .url(deleteUrl)
+                    .post(form)
+                    .build();
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            assert response != null;
+            try {
+                return response.body().string();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "Unknown Error";
+        }
     }
 
     private class PostRequest extends AsyncTask<String,Void ,String > {

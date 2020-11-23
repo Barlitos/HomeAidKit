@@ -16,4 +16,25 @@
         <item name="android:textColorSecondary">#00ccff</item>    <!--days of the week-->
     </style>
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@android:color/black</item>
+        <item name="android:textColor">#00ccff</item>
+        <item name="android:textColorPrimary">#fff</item>
+        <item name="android:textColorSecondary">#00ccff</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="@style/Widget.MaterialComponents.Button">
+        <item name="android:textColor">@android:color/holo_red_dark</item>
+        <item name="backgroundTint">@android:color/black</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="@style/Widget.MaterialComponents.Button">
+        <item name="android:textColor">#00ccff</item>
+        <item name="backgroundTint">@android:color/black</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
 </resources>

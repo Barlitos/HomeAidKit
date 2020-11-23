@@ -269,6 +269,7 @@ public class addDrug extends AppCompatActivity implements AdapterView.OnItemSele
                     .putExtra("quantity",Integer.parseInt(drugQuantity.getText().toString()))
                     .putExtra("unit",unitId);
                     Toast.makeText(addDrug.this,object.getString("message"),Toast.LENGTH_LONG).show();
+                    openHomeActivity();
                     finish();
                 }
             }
