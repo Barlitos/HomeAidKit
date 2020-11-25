@@ -3,13 +3,9 @@ package com.example.homeaidkit;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -23,7 +19,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -109,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
                 .putExtra("expDate",drug.getExpDate())
                 .putExtra("index",drugList.indexOf(drug))
                 .putExtra("unit",drug.getUnit());
-        System.out.println(drugList.indexOf(drug));
         startActivityForResult(openDrugModify,1);
     }
 

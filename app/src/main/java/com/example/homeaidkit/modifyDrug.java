@@ -309,6 +309,7 @@ public class modifyDrug extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(String s) {
+            System.out.println(s);
             try
             {
                 JSONObject response = new JSONObject(s);
@@ -338,6 +339,8 @@ public class modifyDrug extends AppCompatActivity {
             RequestBody form=new FormBody.Builder()
                     .add(strings[0],strings[1])
                     .add(strings[2],strings[3])
+                    .add(strings[4],strings[5])
+                    .add(strings[6],strings[7])
                     .build();
             Request request=new Request.Builder()
                     .url(postUrl)
