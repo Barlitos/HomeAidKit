@@ -1,6 +1,6 @@
 package com.example.homeaidkit;
 
-public class Drug {
+public class Drug implements Comparable<Drug>{
     private int id;
     private String name;
     private String expDate;
@@ -53,5 +53,11 @@ public class Drug {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+
+    @Override
+    public int compareTo(Drug o) {
+        return this.getName().toLowerCase().compareTo(o.getName().toLowerCase());
     }
 }

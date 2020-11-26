@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,7 +18,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.FormBody;
@@ -26,10 +32,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity implements DrugListAdapter.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements DrugListAdapter.OnItemClickListener,SearchView.OnQueryTextListener {
 
     private String drugListUrl;
-    private List<Drug> drugList;
+    private ArrayList<Drug> drugList;
     private ListView drugListView;
     private DrugListAdapter adapter;
     private SearchView search;
@@ -44,8 +50,11 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
         getlist.execute("user_id",String.valueOf(user_id));
 
         drugListView=findViewById(R.id.categorydrugList);
+        drugListView.setTextFilterEnabled(true);
         search=findViewById(R.id.searchField);
         search.setFocusable(false);
+        search.setIconifiedByDefault(false);
+        search.setOnQueryTextListener(this);
 
         Button account = findViewById(R.id.accountButton);
         account.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +98,14 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
                 //openAddDrugActivity();
             }
         });
-
+        ImageButton alphabetSort=findViewById(R.id.alphabeticalSortButton);
+        alphabetSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Collections.sort(drugList);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -135,6 +151,46 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
         //System.out.println(drugList);
     }
 
+    public void dateSort(View view) {
+        Collections.sort(drugList, new Comparator<Drug>() {
+            @Override
+            public int compare(Drug o1, Drug o2) {
+                SimpleDateFormat format=new SimpleDateFormat("dd-MM-yy");
+                try {
+                    Date date1=format.parse(o1.getExpDate());
+                    Date date2=format.parse(o2.getExpDate());
+                    assert date1 != null;
+                    return date1.compareTo(date2);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return 0;
+            }
+        });
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        System.out.println("query = " + query+" len: "+query.length());
+        adapter.getFilter().filter(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        System.out.println("query = " + newText+" length: "+newText.length());
+        System.out.println(drugList);
+        if(newText.length()==0){
+            adapter.getFilter().filter(newText);
+            drugListView.clearTextFilter();
+        }else{
+            adapter.getFilter().filter(newText);
+        }
+        adapter.notifyDataSetChanged();
+        return true;
+    }
+
     private class GetUsersDrugs extends AsyncTask<String,Void,String>
     {
         @Override
@@ -142,7 +198,6 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
             OkHttpClient client =new OkHttpClient();
             RequestBody form=new FormBody.Builder()
                     .add(strings[0],strings[1])
-                    //.add(strings[2],strings[3])
                     .build();
             Request request=new Request.Builder()
                     .url(drugListUrl)

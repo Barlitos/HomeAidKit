@@ -147,6 +147,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#8c8c8c"
+            android:onClick="dateSort"
             app:srcCompat="@drawable/ic_baseline_date_range_24" />
 
         <ImageButton

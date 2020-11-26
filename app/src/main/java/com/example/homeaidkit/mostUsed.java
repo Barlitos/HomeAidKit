@@ -125,7 +125,6 @@ public class mostUsed extends AppCompatActivity implements DrugListAdapter.OnIte
         @Override
         protected void onPostExecute(String s) {
             try {
-                System.out.println(s);
                 JSONObject object=new JSONObject(s);
                 if(object.has("empty") && object.getInt("empty")==0) {
                     JSONArray drugArr=object.getJSONArray("drugList");

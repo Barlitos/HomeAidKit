@@ -2,7 +2,7 @@ package com.example.homeaidkit;
 
 import androidx.annotation.NonNull;
 
-public class Category {
+public class Category implements Comparable<Category>{
     private int id;
     private String name;
 
@@ -33,4 +33,8 @@ public class Category {
         this.name = name;
     }
 
+    @Override
+    public int compareTo(Category o) {
+        return this.getName().toLowerCase().compareTo(o.getName().toLowerCase());
+    }
 }

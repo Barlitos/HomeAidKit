@@ -41,7 +41,7 @@ public class modifyDrug extends AppCompatActivity {
     private Switch mostUsed;
     private int counter;
     int index;
-    private boolean isModifyDrugQuantityOk=false,addToMostUsed=false;
+    private boolean isModifyDrugQuantityOk=true,addToMostUsed=false;
     private Drug modifiedDrug;
     private String postUrl;
     private String deleteUrl;
