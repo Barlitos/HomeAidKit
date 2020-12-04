@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import okhttp3.FormBody;
@@ -88,6 +89,13 @@ public class categories extends AppCompatActivity implements CategoryListAdapter
             @Override
             public void onClick(View v) {
                 openAddCategoryActivity();
+            }
+        });
+        ImageButton alphabetSort=findViewById(R.id.alphabeticalSortButton);
+        alphabetSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Collections.sort(categoryList);
             }
         });
     }

@@ -18,7 +18,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.FormBody;
@@ -109,6 +114,7 @@ public class CategoryDrugList extends AppCompatActivity implements DrugListAdapt
                 openCategoriesActivity();
             }
         });
+        ImageButton alphabetSort=findViewById(R.id.alphabeticalSortButton);
     }
 
     @Override
@@ -149,7 +155,25 @@ public class CategoryDrugList extends AppCompatActivity implements DrugListAdapt
                 }
                 break;
         }
-        System.out.println(drugList);
+    }
+
+    public void dateSort(View view) {
+        Collections.sort(drugList, new Comparator<Drug>() {
+            @Override
+            public int compare(Drug o1, Drug o2) {
+                SimpleDateFormat format=new SimpleDateFormat("dd-MM-yy");
+                try {
+                    Date date1=format.parse(o1.getExpDate());
+                    Date date2=format.parse(o2.getExpDate());
+                    assert date1 != null;
+                    return date1.compareTo(date2);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return 0;
+            }
+        });
+        adapter.notifyDataSetChanged();
     }
 
     private class getCategoryDrugList extends AsyncTask<String,Void,String>{
