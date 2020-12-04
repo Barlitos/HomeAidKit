@@ -1,7 +1,9 @@
 package com.example.homeaidkit;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -25,23 +28,33 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class addCategory extends AppCompatActivity {
+public class modifyDeleteCategory extends AppCompatActivity {
 
-    protected EditText categoryName;
+    private TextView name;
+    protected EditText editCategoryName;
     private boolean isCategoryNameOk=false;
-
     private String postUrl;
+    private String deleteUrl;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_category);
-        postUrl=getString(R.string.host)+"addCategory.php";
+        setContentView(R.layout.activity_modify_deletecategory);
+        postUrl=getString(R.string.host)+"editCategory.php";
+        deleteUrl=getString(R.string.host)+"deleteCategory.php";
+        name=findViewById(R.id.selectedCategoryView);
+        editCategoryName=findViewById(R.id.modifyCategoryInput);
+        Bundle pack=getIntent().getExtras();
 
-        categoryName=findViewById(R.id.categoryInput);
-        SharedPreferences data=getSharedPreferences("UserData",MODE_PRIVATE);
-        final int user_id=data.getInt("user_id",-1);
-        categoryName.addTextChangedListener(new TextWatcher() {
+        final int user_id=getSharedPreferences("UserData",MODE_PRIVATE).getInt("user_id",-1);
+        int category_id=0;
+        if(pack!=null){
+            name.setText(pack.getString("CategoryName"));
+            category_id=pack.getInt("categoryId");
+        }
+
+        editCategoryName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -50,20 +63,20 @@ public class addCategory extends AppCompatActivity {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                if(categoryName.getText().toString().isEmpty())
+                if(editCategoryName.getText().toString().isEmpty())
                 {
                     setCategoryNameOk(false);
                 }
                 else setCategoryNameOk(true);
             }
         });
-        categoryName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        editCategoryName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus)
                 {
                     if(!isCategoryNameOk)
-                        categoryName.setError(getString(R.string.empty_name_error));
+                        editCategoryName.setError(getString(R.string.empty_name_error));
                 }
             }
         });
@@ -100,7 +113,7 @@ public class addCategory extends AppCompatActivity {
             }
         });
 
-        ImageButton home = findViewById(R.id.homeButton);
+        ImageButton home = findViewById(R.id.hometButton);
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,20 +129,104 @@ public class addCategory extends AppCompatActivity {
             }
         });
 
-        Button addCategory = findViewById(R.id.addCategoryButton);
-        addCategory.setOnClickListener(new View.OnClickListener() {
+        Button accpetCategoryModify = findViewById(R.id.acceptCategoryModify);
+        final int finalCategory_id = category_id;
+        accpetCategoryModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (formReadyToRequest()) {
                     PostRequest CategoryName = new PostRequest();
-                    CategoryName.execute("categoryName", categoryName.getText().toString(),"user_id",String.valueOf(user_id));
-                    }
-                    else
-                        {
-                            Toast.makeText(addCategory.this, "Niepoprawnie wypełniono pole",Toast.LENGTH_SHORT).show();
-                    }
+                    CategoryName.execute("categoryName", editCategoryName.getText().toString(),"user_id",String.valueOf(user_id),"categoryId",String.valueOf(finalCategory_id));
                 }
+                else
+                {
+                    Toast.makeText(modifyDeleteCategory.this, "Niepoprawnie wypełniono pole",Toast.LENGTH_SHORT).show();
+                }
+            }
         });
+
+        builder = new AlertDialog.Builder(this, R.style.DialogTheme);
+        Button deleteCategory = findViewById(R.id.DeleteCategory);
+        deleteCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                builder.setMessage("Czy na pewno chcesz usunąć kategorię?")
+                        .setCancelable(false)
+                        .setPositiveButton("Tak", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int id)
+                            {
+                                DeleteRequest CategoryDelete = new DeleteRequest();
+                                CategoryDelete.execute("categoryId",String.valueOf(finalCategory_id));
+                            }
+                        })
+                        .setNegativeButton("Nie", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int id)
+                            {
+                                openCategoriesActivity();
+                                finish();
+                                dialog.cancel();
+                                Toast.makeText(getApplicationContext(),"Nie usunięto kategorii",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.setTitle("Usuwanie kategorii");
+                alert.show();
+            }
+        });
+
+    }
+
+    private class DeleteRequest extends AsyncTask<String,Void ,String > {
+
+        @Override
+        protected void onPreExecute() {
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            try
+            {
+                JSONObject response = new JSONObject(s);
+                if(response.has("success") && response.getInt("success")==1)
+                {
+                    Toast.makeText(modifyDeleteCategory.this,response.getString("message"),Toast.LENGTH_LONG).show();
+                    openCategoriesActivity();
+                    finish();
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(String... strings){
+
+            OkHttpClient client =new OkHttpClient();
+            RequestBody form=new FormBody.Builder()
+                    .add(strings[0],strings[1])
+                    .build();
+            Request request=new Request.Builder()
+                    .url(deleteUrl)
+                    .post(form)
+                    .build();
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            assert response != null;
+            try {
+                return response.body().string();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "Unknown Error";
+        }
     }
 
     private class PostRequest extends AsyncTask<String,Void ,String > {
@@ -144,7 +241,7 @@ public class addCategory extends AppCompatActivity {
                 JSONObject response = new JSONObject(s);
                 if(response.has("message"))
                 {
-                    Toast.makeText(addCategory.this,response.getString("message"),Toast.LENGTH_LONG).show();
+                    Toast.makeText(modifyDeleteCategory.this,response.getString("message"),Toast.LENGTH_LONG).show();
                     openCategoriesActivity();
                     finish();
                 }
@@ -162,6 +259,7 @@ public class addCategory extends AppCompatActivity {
             RequestBody form=new FormBody.Builder()
                     .add(strings[0],strings[1])
                     .add(strings[2],strings[3])
+                    .add(strings[4],strings[5])
                     .build();
             Request request=new Request.Builder()
                     .url(postUrl)
@@ -232,6 +330,7 @@ public class addCategory extends AppCompatActivity {
     public void setCategoryNameOk(boolean CategoryNameOk) {
         isCategoryNameOk = CategoryNameOk;
     }
+
     @Override
     public void onBackPressed() {}
 }

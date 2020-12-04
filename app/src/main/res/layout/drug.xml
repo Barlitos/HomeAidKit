@@ -1,63 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="#000">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000">
 
-    <View
-        android:id="@+id/line1"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#000"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-<androidx.appcompat.widget.LinearLayoutCompat
-app:layout_constraintTop_toBottomOf="@+id/line1"
-android:id="@+id/singleDrug"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="horizontal"
-android:layout_marginHorizontal="32dp"
->
-
-<TextView
+    <TextView
     android:id="@+id/drugName"
-    android:layout_width="0dp"
-    android:layout_height="32dp"
-    android:layout_weight="1"
-    android:textSize="20sp"
-    android:textColor="#fff"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:layout_weight="0.9"
     android:background="#8c8c8c"
-    />
-<TextView
-    android:id="@+id/drugDate"
-    android:layout_width="0dp"
-    android:textSize="20sp"
-    android:layout_height="32dp"
-    android:layout_weight="1"
     android:textColor="#fff"
-    android:background="#8c8c8c"
-    />
-<TextView
-    android:id="@+id/drugQuantity"
-    android:layout_width="0dp"
-    android:layout_height="32dp"
-    android:layout_weight="1"
-    android:textSize="20sp"
-    android:textColor="#fff"
-    android:background="#8c8c8c"
-    />
-</androidx.appcompat.widget.LinearLayoutCompat>
-    <View
-        android:id="@+id/line2"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#000"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintTop_toBottomOf="@id/singleDrug"/>
+    android:textSize="22sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/drugDate"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:background="#8c8c8c"
+        android:textColor="#fff"
+        android:textSize="22sp"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/drugQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_weight="1.15"
+        android:background="#8c8c8c"
+        android:textColor="#fff"
+        android:textSize="22sp"
+        android:textAlignment="textEnd"
+        />
+
+</LinearLayout>

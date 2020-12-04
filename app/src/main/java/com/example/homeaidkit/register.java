@@ -60,12 +60,14 @@ public class register extends AppCompatActivity {
  //validation flags
  private boolean isEmailOk=false,isLoginOk=false,isPasswordOk=true;
 
- private static final String postUrl="http://192.168.0.3/HomeAidKit/createAccount.php";
+
+ private String postUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        postUrl=getString(R.string.host)+"createAccount.php";
         login=findViewById(R.id.loginInput);
         email=findViewById(R.id.emailInput);
         password=findViewById(R.id.password1Input);
@@ -173,15 +175,14 @@ public class register extends AppCompatActivity {
         loggingIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openLogingInActivity("");
+                openLogingInActivity();
             }
         });
     }
 
-    public void openLogingInActivity(String message)
+    public void openLogingInActivity()
     {
         Intent intent = new Intent(this, LoginActivity.class);
-        intent.putExtra("message", message);
         startActivity(intent);
     }
 
@@ -206,7 +207,7 @@ public class register extends AppCompatActivity {
 
                 if(object.getInt("success")==1)
                 {
-                    openLogingInActivity(object.getString("message"));
+                    openLogingInActivity();
                 }
             }
             catch (JSONException e) {
@@ -273,4 +274,6 @@ public class register extends AppCompatActivity {
     public void setPasswordOk(boolean passwordOk) {
         isPasswordOk = passwordOk;
     }
+    @Override
+    public void onBackPressed() {}
 }

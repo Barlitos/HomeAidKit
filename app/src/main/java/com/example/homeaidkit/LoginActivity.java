@@ -1,16 +1,12 @@
 package com.example.homeaidkit;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,8 +16,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.Set;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -31,7 +25,7 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String postUrl="http://192.168.0.3/HomeAidKit/login.php";
+    private String postUrl;
     protected EditText login;
     protected EditText password;
 
@@ -39,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        postUrl=getString(R.string.host)+"login.php";
         Bundle b = getIntent().getExtras();
         if(b!=null)
         {
@@ -53,10 +47,13 @@ public class LoginActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(login.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
-                    Toast.makeText(LoginActivity.this,"Login lub hasło nie są poprawne",Toast.LENGTH_LONG).show();
+                if(login.getText().toString().isEmpty()) {
+                    login.setError(getString(R.string.empty_login_error));
                 }
-                else {
+                else if ( password.getText().toString().isEmpty()){
+                    password.setError(getString(R.string.empty_login_error));
+                }
+                else{
                     PostRequest loginRequest = new PostRequest();
                     loginRequest.execute("login", login.getText().toString(), "password", password.getText().toString());
                 }
@@ -103,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                         password.setError(object.getString("message"));
                     }
                     else {
-                        SharedPreferences data=getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences data=getSharedPreferences("UserData",Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor=data.edit();
                         editor.putInt("user_id",object.getInt("user_id"));
                         editor.apply();
@@ -116,7 +113,6 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
 
         @Override
@@ -145,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             return "Unknown Error";
         }
-
     }
-
+    @Override
+    public void onBackPressed() {}
 }

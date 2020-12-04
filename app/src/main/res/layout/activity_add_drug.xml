@@ -7,13 +7,13 @@
     android:background="#000">
 
     <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_marginVertical="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="6dp"
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/menu"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -55,7 +55,7 @@
                 android:layout_marginTop="32dp"
                 android:text="Dodawanie leku"
                 android:textColor="#8c8c8c"
-                android:textSize="32sp"
+                android:textSize="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/logOutButton" />
@@ -109,20 +109,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/drugNameInput" />
 
-            <EditText
-                android:id="@+id/drugDateInput"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/dateLayout"
+                app:layout_constraintTop_toBottomOf="@id/textView3"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginHorizontal="32dp"
-                android:layout_marginTop="0dp"
-                android:hint="format DD-MM-RRRR"
-                android:inputType="date"
-                android:textColor="#8c8c8c"
-                android:textColorHint="#8c8c8c"
-                android:textSize="20sp"
+                android:background="#000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView3" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/dateView"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:textColor="#8c8c8c"
+                    android:textSize="20sp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/selectDateButton"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:background="#8c8c8c"
+                    android:text="Wybierz datę"
+                    android:layout_weight="1"
+                    android:textColor="#000" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <View
                 android:layout_width="match_parent"
@@ -130,7 +147,7 @@
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="0dp"
                 android:background="#8c8c8c"
-                app:layout_constraintTop_toBottomOf="@id/drugDateInput" />
+                app:layout_constraintTop_toBottomOf="@id/dateLayout" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -140,21 +157,31 @@
                 android:layout_marginTop="16dp"
                 android:text="Postać"
                 android:textColor="#00ccff"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/drugDateInput" />
+                app:layout_constraintTop_toBottomOf="@id/dateLayout" />
 
             <Spinner
                 android:id="@+id/drugFormSelector"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
                 android:layout_marginHorizontal="32dp"
-                android:layout_marginTop="0dp"
-                android:background="#fff"
+                android:layout_marginTop="8dp"
+                android:background="#000"
+                android:popupBackground="#000"
+                android:entries="@array/form"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView4" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="0dp"
+                android:background="#8c8c8c"
+                app:layout_constraintTop_toBottomOf="@id/drugFormSelector" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -208,13 +235,22 @@
             <Spinner
                 android:id="@+id/drugCategorySelector"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
                 android:layout_marginHorizontal="32dp"
-                android:layout_marginTop="0dp"
-                android:background="#fff"
+                android:layout_marginTop="8dp"
+                android:popupBackground="#000"
+                android:background="#000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView6" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="0dp"
+                android:background="#8c8c8c"
+                app:layout_constraintTop_toBottomOf="@id/drugCategorySelector" />
 
             <Button
                 android:id="@+id/addingDrugButton"

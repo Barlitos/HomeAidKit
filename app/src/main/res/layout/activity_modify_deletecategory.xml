@@ -7,7 +7,8 @@
     android:background="#000">
 
     <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_marginVertical="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="6dp"
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -18,7 +19,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000"
-    tools:context=".modifyDeletecategory">
+    tools:context=".modifyDeleteCategory">
 
     <Button
         android:id="@+id/accountButton"
@@ -36,12 +37,12 @@
     <Button
         android:id="@+id/logOutButton"
         android:layout_width="0dp"
-        android:layout_height="16dp"
+        android:layout_height="30dp"
         android:text="Wyloguj"
         android:textColor="#000"
         android:background="#00ccff"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_alignParentRight="true" />
@@ -61,16 +62,25 @@
         />
 
     <TextView
-        android:id="@+id/selectedCategory"
-        android:textColor="#fff"
+        android:id="@+id/selectedCategoryView"
+        android:textColor="#00ccff"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="16dp"
-        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        android:text=""
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="0dp"
+        android:background="#00ccff"
+        app:layout_constraintTop_toBottomOf="@id/selectedCategoryView" />
 
     <TextView
         android:id="@+id/textView2"
@@ -83,7 +93,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectedCategory" />
+        app:layout_constraintTop_toBottomOf="@id/selectedCategoryView" />
 
     <EditText
         android:id="@+id/modifyCategoryInput"
@@ -92,7 +102,7 @@
         android:textColor="#8c8c8c"
         android:textColorHint="#8c8c8c"
         android:textSize="20sp"
-        android:hint="np. Ból gardła"
+        android:hint=""
         android:inputType="text"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="0dp"

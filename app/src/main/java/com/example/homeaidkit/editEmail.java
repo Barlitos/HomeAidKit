@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.FormBody;
@@ -19,23 +22,23 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class emailEdit extends AppCompatActivity {
+public class editEmail extends AppCompatActivity {
     protected EditText newEmail;
     protected EditText repeatEmail;
     protected EditText password;
-    private static final String postUrl="192.168.8.118/HomeAidKit/changeEmail.php";
+    private  String postUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_email_edit);
-
+        setContentView(R.layout.activity_edit_email);
+        postUrl=getString(R.string.host)+"changeEmail.php";
         newEmail=findViewById(R.id.emailEdit1Input);
         repeatEmail=findViewById(R.id.emailEdit2Input);
         password=findViewById(R.id.passwordInput);
-        SharedPreferences data=getPreferences(MODE_PRIVATE);
+        SharedPreferences data=getSharedPreferences("UserData",MODE_PRIVATE);
          final int user_id=data.getInt("user_id",-1);
-
+        System.out.println("USER ID"+user_id);
         Button account = findViewById(R.id.accountButton);
         account.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,15 +68,41 @@ public class emailEdit extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(emailEdit.this,"Niepoprawnie wypełniono pola",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(editEmail.this,"Niepoprawnie wypełniono pola",Toast.LENGTH_SHORT).show();
+                    if(newEmail.getText().toString().isEmpty()){
+                        newEmail.setError(getString(R.string.empty_login_error));
+                    }
+                    if(repeatEmail.getText().toString().isEmpty()){
+                        repeatEmail.setError(getString(R.string.empty_login_error));
+                    }
+                    if(password.getText().toString().isEmpty()){
+                        password.setError(getString(R.string.empty_login_error));
+                    }
                 }
-               // openEditEmailActivity();
+               openEditEmailActivity();
             }
         });
     }
 
     private class PostRequest extends AsyncTask<String,Void,String>
     {
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try
+            {
+                JSONObject response = new JSONObject(s);
+                if(response.has("success") && response.getInt("success")==1)
+                {
+                    Toast.makeText(editEmail.this,response.getString("message"),Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
         @Override
         protected String doInBackground(String... strings) {
             OkHttpClient client =new OkHttpClient();
@@ -118,4 +147,7 @@ public class emailEdit extends AppCompatActivity {
         Intent intent = new Intent(this, account.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {}
 }

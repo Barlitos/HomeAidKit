@@ -7,7 +7,9 @@
     android:background="#000">
 
     <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_marginVertical="32dp"
+        android:fillViewport="true"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="6dp"
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -57,23 +59,70 @@
         android:queryHint="Wpisz nazwę leku"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logOutButton" />
+        app:layout_constraintTop_toBottomOf="@id/logOutButton"
+        android:focusableInTouchMode="true"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/drugListInformer"
+        app:layout_constraintTop_toBottomOf="@id/searchField"
+        android:layout_marginTop="16dp"
+        android:background="#000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/drugName"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_weight="0.9"
+            android:text="Nazwa leku"
+            android:background="#000"
+            android:textColor="#00ccff"
+            android:textSize="20dp"
+            android:textAlignment="textStart"
+             />
+
+        <TextView
+            android:id="@+id/drugDate"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:background="#000"
+            android:textColor="#00ccff"
+            android:text="Ważny do"
+            android:textSize="20sp"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/drugQuantity"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_weight="1.15"
+            android:background="#000"
+            android:textColor="#00ccff"
+            android:text="Liczba"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <ListView
-        android:id="@+id/drugList"
+        android:nestedScrollingEnabled="true"
+        android:id="@+id/categorydrugList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="0dp"
         android:layout_marginHorizontal="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchField"
+        app:layout_constraintTop_toBottomOf="@id/drugListInformer"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
-
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/menu"
@@ -125,6 +174,5 @@
             app:srcCompat="@drawable/ic_baseline_add_circle_24" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
