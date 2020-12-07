@@ -50,7 +50,7 @@ public class DrugListAdapter extends ArrayAdapter<Drug> implements Filterable{
                 } else {
                     constraint = constraint.toString().toLowerCase().trim();
                     for (Drug d :tmpList) {
-                        if (d.getName().contains(constraint)) {
+                        if (d.getName().toLowerCase().contains(constraint)) {
                             results.add(d);
                         }
                     }
@@ -70,7 +70,7 @@ public class DrugListAdapter extends ArrayAdapter<Drug> implements Filterable{
         };
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n","SimpleDateFormat"})
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView
@@ -84,7 +84,7 @@ public class DrugListAdapter extends ArrayAdapter<Drug> implements Filterable{
         TextView drugName=convertView.findViewById(R.id.drugName);
         TextView drugDate=convertView.findViewById(R.id.drugDate);
         TextView drugQuantity=convertView.findViewById(R.id.drugQuantity);
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat format=new SimpleDateFormat("dd-MM-yy");
+        SimpleDateFormat format=new SimpleDateFormat("dd-MM-yy");
         try {
             assert drug != null;
             Date drugExpdate=format.parse(drug.getExpDate());
