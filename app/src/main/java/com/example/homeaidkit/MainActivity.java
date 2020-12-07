@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -95,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
 
                 Intent openAddDrug=new Intent(MainActivity.this,addDrug.class);
                 startActivityForResult(openAddDrug,2);
-                //openAddDrugActivity();
+
             }
         });
         ImageButton alphabetSort=findViewById(R.id.alphabeticalSortButton);
@@ -126,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("RESULT");
         switch (requestCode)
         {
             case 1:
@@ -148,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
                 }
                 break;
         }
-        //System.out.println(drugList);
     }
 
     public void dateSort(View view) {
@@ -172,22 +168,13 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        System.out.println("query = " + query+" len: "+query.length());
         adapter.getFilter().filter(query);
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        System.out.println("query = " + newText+" length: "+newText.length());
-        System.out.println(drugList);
-        if(newText.length()==0){
-            adapter.getFilter().filter(newText);
-            drugListView.clearTextFilter();
-        }else{
-            adapter.getFilter().filter(newText);
-        }
-        adapter.notifyDataSetChanged();
+        adapter.getFilter().filter(newText);
         return true;
     }
 
@@ -262,13 +249,4 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
         Intent intent = new Intent(this, categories.class);
         startActivity(intent);
     }
-
-    public void openAddDrugActivity()
-    {
-        Intent intent = new Intent(this, addDrug.class);
-        startActivity(intent);
-    }
-
-
-   
 }

@@ -87,7 +87,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#8c8c8c"
-            app:srcCompat="@drawable/ic_baseline_sort_by_alpha_24" />
+            app:srcCompat="@drawable/ic_baseline_sort_by_alpha_24"
+            android:onClick="alphabeticalSort"/>
 
         <ImageButton
             android:id="@+id/dateSortButton"
@@ -95,7 +96,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#8c8c8c"
-            app:srcCompat="@drawable/ic_baseline_date_range_24" />
+            app:srcCompat="@drawable/ic_baseline_date_range_24"
+            android:onClick="dateSort"/>
 
         <ImageButton
             android:id="@+id/categoriesButton"

@@ -1,5 +1,6 @@
 package com.example.homeaidkit;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -114,7 +115,6 @@ public class CategoryDrugList extends AppCompatActivity implements DrugListAdapt
                 openCategoriesActivity();
             }
         });
-        ImageButton alphabetSort=findViewById(R.id.alphabeticalSortButton);
     }
 
     @Override
@@ -155,25 +155,6 @@ public class CategoryDrugList extends AppCompatActivity implements DrugListAdapt
                 }
                 break;
         }
-    }
-
-    public void dateSort(View view) {
-        Collections.sort(drugList, new Comparator<Drug>() {
-            @Override
-            public int compare(Drug o1, Drug o2) {
-                SimpleDateFormat format=new SimpleDateFormat("dd-MM-yy");
-                try {
-                    Date date1=format.parse(o1.getExpDate());
-                    Date date2=format.parse(o2.getExpDate());
-                    assert date1 != null;
-                    return date1.compareTo(date2);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                return 0;
-            }
-        });
-        adapter.notifyDataSetChanged();
     }
 
     private class getCategoryDrugList extends AsyncTask<String,Void,String>{
@@ -226,6 +207,30 @@ public class CategoryDrugList extends AppCompatActivity implements DrugListAdapt
                 e.printStackTrace();
             }
         }
+    }
+    @SuppressWarnings("simpledateformat")
+    public void dateSort(View view) {
+        Collections.sort(drugList, new Comparator<Drug>() {
+            @Override
+            public int compare(Drug o1, Drug o2) {
+                 SimpleDateFormat format=new SimpleDateFormat("dd-MM-yy");
+                try {
+                    Date date1=format.parse(o1.getExpDate());
+                    Date date2=format.parse(o2.getExpDate());
+                    assert date1 != null;
+                    return date1.compareTo(date2);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return 0;
+            }
+        });
+        adapter.notifyDataSetChanged();
+    }
+
+    public void alphabeticalSort(View view) {
+        Collections.sort(drugList);
+        adapter.notifyDataSetChanged();
     }
 
     public void openDeleteModifyCategory(int a)

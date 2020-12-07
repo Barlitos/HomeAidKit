@@ -1,5 +1,6 @@
 package com.example.homeaidkit;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -23,13 +24,13 @@ public class DrugListAdapter extends ArrayAdapter<Drug> implements Filterable{
     private ArrayList<Drug> drugList;
     private ArrayList<Drug> tmpList;
 
-    public DrugListAdapter(@NonNull Context context
+    DrugListAdapter(@NonNull Context context
             ,List<Drug> resource) {
         super(context,-1,resource);
         listener=(OnItemClickListener) context;
         this.drugList= (ArrayList<Drug>) resource;
-        tmpList=(ArrayList<Drug>)resource;
-        System.out.println("WYWOŁANY KONSTRUKTOR");
+        this.tmpList=new ArrayList<Drug>(drugList);
+
     }
     interface OnItemClickListener{
         void onItemClickListener(Drug drug);
@@ -38,48 +39,38 @@ public class DrugListAdapter extends ArrayAdapter<Drug> implements Filterable{
     @NonNull
     @Override
     public Filter getFilter() {
-        System.out.println("performuje");
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                final FilterResults filtered=new FilterResults();
-                ArrayList<Drug> results=new ArrayList<Drug>();
+                final FilterResults filtered = new FilterResults();
+                ArrayList<Drug> results = new ArrayList<Drug>();
 
-                if(constraint.toString().length()>0){
-                    if(drugList!=null && drugList.size()>0){
-                        for(final Drug d:drugList){
-                            if(d.getName().toLowerCase().contains(constraint.toString())){
-                                results.add(d);
-                            }
+                if (constraint.length() == 0 || constraint==null) {
+                    results.addAll(tmpList);
+                } else {
+                    constraint = constraint.toString().toLowerCase().trim();
+                    for (Drug d :tmpList) {
+                        if (d.getName().contains(constraint)) {
+                            results.add(d);
                         }
                     }
-                    filtered.values=results;
-                    filtered.count=results.size();
                 }
-                else {
-                    filtered.values=tmpList;
-                    filtered.count=tmpList.size();
-                    System.out.println("count : "+filtered.count);
-                }
+                filtered.count = results.size();
+                filtered.values = results;
                 return filtered;
             }
 
+        @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                if(constraint.length()>0 && results.count>0){
-                    System.out.println("constraint: "+constraint+" len: "+constraint.length());
                     drugList.clear();
-                    drugList.addAll((ArrayList<Drug>) results.values);
+                    drugList.addAll((ArrayList<Drug>)results.values);
                     notifyDataSetChanged();
-                }
-                else{
-                    drugList=tmpList;
-                    notifyDataSetChanged();
-                }
             }
         };
     }
 
+    @SuppressLint("SetTextI18n")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView
@@ -93,8 +84,9 @@ public class DrugListAdapter extends ArrayAdapter<Drug> implements Filterable{
         TextView drugName=convertView.findViewById(R.id.drugName);
         TextView drugDate=convertView.findViewById(R.id.drugDate);
         TextView drugQuantity=convertView.findViewById(R.id.drugQuantity);
-        SimpleDateFormat format=new SimpleDateFormat("dd-MM-yy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format=new SimpleDateFormat("dd-MM-yy");
         try {
+            assert drug != null;
             Date drugExpdate=format.parse(drug.getExpDate());
             if(today.after(drugExpdate)) {
                 drugDate.setTextColor(Color.RED);
@@ -108,11 +100,12 @@ public class DrugListAdapter extends ArrayAdapter<Drug> implements Filterable{
         drugName.setText(drug.getName());
         drugDate.setText(drug.getExpDate());
         if(drug.getUnit()==1) {
-            drugQuantity.setText(String.valueOf(drug.getQuantity())+" szt");
+            drugQuantity.setText((drug.getQuantity())+" szt");
         }
         else{
-            drugQuantity.setText(String.valueOf(drug.getQuantity())+" ml");
+            drugQuantity.setText((drug.getQuantity())+" ml");
         }
+
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

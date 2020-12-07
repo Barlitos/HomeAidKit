@@ -108,6 +108,11 @@ public class categories extends AppCompatActivity implements CategoryListAdapter
         startActivity(openModCategory);
     }
 
+    public void alphabeticalSort(View view) {
+        Collections.sort(categoryList);
+        adapter.notifyDataSetChanged();
+    }
+
 
     private class GetUsersCategories extends AsyncTask<String,Void,String>
     {
