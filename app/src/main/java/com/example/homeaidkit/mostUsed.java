@@ -36,6 +36,7 @@ public class mostUsed extends AppCompatActivity implements DrugListAdapter.OnIte
     private ListView drugListView;
     private DrugListAdapter adapter;
     private String getMostUsedUrl;
+    private boolean reverseOrder=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,7 +152,14 @@ public class mostUsed extends AppCompatActivity implements DrugListAdapter.OnIte
         }
     }
     public void alphabeticalSort(View view) {
-        Collections.sort(drugList);
+        if(isReverseOrder()) {
+            Collections.sort(drugList,Collections.<Drug>reverseOrder());
+            setReverseOrder(!isReverseOrder());
+        }
+        else {
+            Collections.sort(drugList);
+            setReverseOrder(!isReverseOrder());
+        }
         adapter.notifyDataSetChanged();
     }
 
@@ -173,6 +181,14 @@ public class mostUsed extends AppCompatActivity implements DrugListAdapter.OnIte
             }
         });
         adapter.notifyDataSetChanged();
+    }
+
+    public boolean isReverseOrder() {
+        return reverseOrder;
+    }
+
+    public void setReverseOrder(boolean reverseOrder) {
+        this.reverseOrder = reverseOrder;
     }
 
     public void openAccountActivity()

@@ -34,6 +34,7 @@ public class CategoryDrugList extends AppCompatActivity implements DrugListAdapt
     private DrugListAdapter adapter;
     private String url;
     private List<Drug> drugList;
+    private boolean reverseOrder=false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -224,8 +225,23 @@ public class CategoryDrugList extends AppCompatActivity implements DrugListAdapt
     }
 
     public void alphabeticalSort(View view) {
-        Collections.sort(drugList);
+        if(isReverseOrder()) {
+            Collections.sort(drugList,Collections.<Drug>reverseOrder());
+            setReverseOrder(!isReverseOrder());
+        }
+        else {
+            Collections.sort(drugList);
+            setReverseOrder(!isReverseOrder());
+        }
         adapter.notifyDataSetChanged();
+    }
+
+    public boolean isReverseOrder() {
+        return reverseOrder;
+    }
+
+    public void setReverseOrder(boolean reverseOrder) {
+        this.reverseOrder = reverseOrder;
     }
 
     public void openDeleteModifyCategory(int a)

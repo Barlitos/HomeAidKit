@@ -31,6 +31,7 @@ public class categories extends AppCompatActivity implements CategoryListAdapter
     private List<Category> categoryList;
     private ListView categoryListView;
     private CategoryListAdapter adapter;
+    private boolean reverseOrder=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,13 +92,6 @@ public class categories extends AppCompatActivity implements CategoryListAdapter
                 openAddCategoryActivity();
             }
         });
-        ImageButton alphabetSort=findViewById(R.id.alphabeticalSortButton);
-        alphabetSort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Collections.sort(categoryList);
-            }
-        });
     }
 
     @Override
@@ -109,10 +103,16 @@ public class categories extends AppCompatActivity implements CategoryListAdapter
     }
 
     public void alphabeticalSort(View view) {
-        Collections.sort(categoryList);
+        if(isReverseOrder()) {
+            Collections.sort(categoryList,Collections.<Category>reverseOrder());
+            setReverseOrder(!isReverseOrder());
+        }
+        else {
+            Collections.sort(categoryList);
+            setReverseOrder(!isReverseOrder());
+        }
         adapter.notifyDataSetChanged();
     }
-
 
     private class GetUsersCategories extends AsyncTask<String,Void,String>
     {
@@ -121,7 +121,6 @@ public class categories extends AppCompatActivity implements CategoryListAdapter
             OkHttpClient client =new OkHttpClient();
             RequestBody form=new FormBody.Builder()
                     .add(strings[0],strings[1])
-                    //.add(strings[2],strings[3])
                     .build();
             Request request=new Request.Builder()
                     .url(categoryListUrl)
@@ -162,6 +161,13 @@ public class categories extends AppCompatActivity implements CategoryListAdapter
         }
     }
 
+    public boolean isReverseOrder() {
+        return reverseOrder;
+    }
+
+    public void setReverseOrder(boolean reverseOrder) {
+        this.reverseOrder = reverseOrder;
+    }
 
     public void openAccountActivity()
     {

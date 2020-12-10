@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
     private ArrayList<Drug> drugList;
     private ListView drugListView;
     private DrugListAdapter adapter;
-    private SearchView search;
+    private boolean reverseOrder=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
 
         drugListView=findViewById(R.id.categorydrugList);
         drugListView.setTextFilterEnabled(true);
-        search=findViewById(R.id.searchField);
+        SearchView search = findViewById(R.id.searchField);
         search.setFocusable(false);
         search.setIconifiedByDefault(false);
         search.setOnQueryTextListener(this);
@@ -100,7 +101,14 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
         alphabetSort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Collections.sort(drugList);
+                if(isReverseOrder()) {
+                    Collections.sort(drugList,Collections.<Drug>reverseOrder());
+                    setReverseOrder(!isReverseOrder());
+                }
+                else {
+                    Collections.sort(drugList);
+                    setReverseOrder(!isReverseOrder());
+                }
                 adapter.notifyDataSetChanged();
             }
         });
@@ -224,6 +232,14 @@ public class MainActivity extends AppCompatActivity implements DrugListAdapter.O
             }
         }
 
+    }
+
+    public boolean isReverseOrder() {
+        return reverseOrder;
+    }
+
+    public void setReverseOrder(boolean reverse) {
+        this.reverseOrder = reverse;
     }
 
     public void openAccountActivity()
